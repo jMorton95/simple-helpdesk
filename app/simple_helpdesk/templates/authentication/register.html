@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "authentication/base_login.html" %}
 {% block title %} Register {% endblock %}
 {% block content %}
 <div class="container">
@@ -7,23 +7,7 @@
 
     <form action="/register" class="m-2" method="POST">
       {% csrf_token %}
-      <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <div class="input-group">
-          <span class="input-group-text"
-            ><i class="bi bi-person-fill"></i
-          ></span>
-          <input
-            type="text"
-            class="form-control"
-            id="username"
-            name="username"
-            placeholder="Choose a username"
-            required
-          />
-        </div>
-      </div>
-
+   
       <div class="mb-3">
         <label for="email" class="form-label">Email Address</label>
         <div class="input-group">
@@ -71,6 +55,15 @@
             required
           />
         </div>
+      </div>
+
+      <div class="mb-3 text-danger">
+        <p>For testing purposes, do you want to create your account as an administrator? </p>
+      </div>
+
+      <div class="mb-3 form-check">
+        <input type="checkbox" checked class="form-check-input" id="admin" name="admin">
+        <label class="form-check-label" for="admin">Administrator</label>
       </div>
 
       <div class="d-grid gap-2">

@@ -1,0 +1,61 @@
+{% extends "authentication/base_login.html" %}
+{% block title %} Login {% endblock %}
+{% block content %}
+  <div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="row w-100">
+      <div class="col-md-6 col-lg-4 mx-auto">
+        <div class="card shadow-sm">
+          <div class="card-body p-4">
+            <h3 class="card-title text-center mb-4">Login</h3>
+
+            <form method="POST" action="{% url 'login' %}">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="bi bi-envelope-fill"></i
+                  ></span>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    placeholder="Email address"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    name="password"
+                    placeholder="Password"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
+                <label class="form-check-label" for="rememberMe">Remember me</label>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100">Login</button>
+
+              <div class="text-center mt-3">
+                <small><a href="{% url 'register' %}">Sign up</a></small>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
