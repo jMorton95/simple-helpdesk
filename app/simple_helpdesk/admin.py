@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Project, Ticket, Swimlane, TicketComment
+
+admin.site.register([Project, Ticket, Swimlane, TicketComment])
