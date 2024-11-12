@@ -1,7 +1,8 @@
-from . import views
+from .controllers import home_controller, auth_controller
 from django.urls import path
  
 urlpatterns = [
-    path("", views.index, name="index")
+    path("", home_controller.index, name="index"),
+    path("register", auth_controller.register, name="register")
 ]
  

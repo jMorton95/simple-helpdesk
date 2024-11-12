@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %} Register {% endblock %}
+{% block content %}
+<div class="container">
+  <div class="register-container">
+    <h2 class="register-title">Create Your Account</h2>
+
+    <form action="/register" class="m-2" method="POST">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <div class="input-group">
+          <span class="input-group-text"
+            ><i class="bi bi-person-fill"></i
+          ></span>
+          <input
+            type="text"
+            class="form-control"
+            id="username"
+            name="username"
+            placeholder="Choose a username"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Email Address</label>
+        <div class="input-group">
+          <span class="input-group-text"
+            ><i class="bi bi-envelope-fill"></i
+          ></span>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder="Your email address"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            placeholder="Create a password"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="confirm_password" class="form-label"
+          >Confirm Password</label
+        >
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+          <input
+            type="password"
+            class="form-control"
+            id="confirm_password"
+            name="confirm_password"
+            placeholder="Confirm your password"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary">Register</button>
+      </div>
+
+      <p class="login-link mt-3">
+        Already have an account? <a href="/login">Log in here</a>
+      </p>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}

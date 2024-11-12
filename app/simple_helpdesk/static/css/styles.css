@@ -1,0 +1,49 @@
+body {
+  background-color: #f0f2f5;
+  font-family: Arial, sans-serif;
+}
+.register-container {
+  max-width: 450px;
+  margin: 5% auto;
+  padding: 2.5rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+.register-container:hover {
+  box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.15);
+}
+.register-title {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #007bff;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.form-label {
+  color: #6c757d;
+}
+.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+}
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+.login-link {
+  color: #6c757d;
+  text-align: center;
+  font-size: 0.9rem;
+}
+.login-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+.login-link a:hover {
+  text-decoration: underline;
+}
