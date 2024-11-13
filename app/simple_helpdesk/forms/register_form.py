@@ -7,12 +7,6 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ("email", "password1", "password2")
         
-        error_messages = {
-        "username": {
-            "unique": "An account with this email address already exists. Please choose a different one.",
-        },
-    }
-        
     def __init__(self, *args, **kwargs):
       super().__init__(*args, **kwargs)
 
@@ -44,10 +38,10 @@ class RegisterForm(UserCreationForm):
       password2 = cleaned_data.get('password2')
 
       if password1 and password2 and password1 != password2:
-          self.add_error('password2', "The two password fields didn’t match. Please enter matching passwords.")
+        self.add_error('password2', "The two password fields didn’t match. Please enter matching passwords.")
           
       if User.objects.filter(username = cleaned_data.get('email')).exists():
-        self.add_error('email', "Already exists")
+        self.add_error('email', "A user account with this email address already exists.")
       
       return cleaned_data
 
