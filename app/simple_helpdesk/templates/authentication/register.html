@@ -5,56 +5,37 @@
   <div class="register-container">
     <h2 class="register-title">Create Your Account</h2>
 
-    <form action="/register" class="m-2" method="POST">
+    <form action="{% url 'register' %}" class="m-2" method="POST">
       {% csrf_token %}
    
       <div class="mb-3">
-        <label for="email" class="form-label">Email Address</label>
+        {{form.email.errors}}
+        <label for="{{form.email.id_for_label}}" class="form-label">Email Address</label>
         <div class="input-group">
           <span class="input-group-text"
             ><i class="bi bi-envelope-fill"></i
           ></span>
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            name="email"
-            placeholder="Your email address"
-            required
-          />
+        {{form.email}}
         </div>
       </div>
 
       <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
+        <label for="{{form.password1.id_for_label}}" class="form-label">Password</label>
         <div class="input-group">
           <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-          <input
-            type="password"
-            class="form-control"
-            id="password"
-            name="password"
-            placeholder="Create a password"
-            required
-          />
+          {{form.password1}}
         </div>
       </div>
 
       <div class="mb-3">
-        <label for="confirm_password" class="form-label"
+        {{form.password2.errors}}
+      <label for="{{form.password2.id_for_label}}" class="form-label"
           >Confirm Password</label
         >
         <div class="input-group">
           <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-          <input
-            type="password"
-            class="form-control"
-            id="confirm_password"
-            name="confirm_password"
-            placeholder="Confirm your password"
-            required
-          />
-        </div>
+         {{form.password2}}
+        </div> 
       </div>
 
       <div class="mb-3 text-danger">
@@ -74,6 +55,15 @@
         Already have an account? <a href="/login">Log in here</a>
       </p>
     </form>
+
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li class="text-danger">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
   </div>
 </div>
 

@@ -1,9 +1,9 @@
-from .controllers import home_controller, auth_controller
+from .views import helpdesk, auth
 from django.urls import path
  
 urlpatterns = [
-    path("", home_controller.index, name="index"),
-    path("register", auth_controller.register, name="register"),
-    path("login", auth_controller.login, name="login")
+    path("", helpdesk.index, name="index"),
+    path("register", auth.register, name="register"),
+    path("login", auth.login, name="login")
 ]
  
