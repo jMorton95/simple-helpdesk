@@ -1,18 +1,21 @@
 from django.contrib import messages
 from django.contrib.auth.models import User
 
+def validate_form(request, form) -> bool:
+  try:
+   for _, errors in form.errors.items():
+        for error in errors:
+          messages.error(request, error)
+   return form.is_valid()
+  except:
+   return False
 
 class AuthService:
   def register(request, form) -> bool:
-    if not form.is_valid():  
-      for i in form.error_messages:
-        messages.error(request, i)
-      return False
-        
-    if not User.objects.filter(username = form.cleaned_data['email']).exists():
+    if validate_form(request, form):
       form.save()
       return True
     else:
-      messages.error(request, "An account with this email address already exists")
-    
-    return False
+      #messages.error(request, "An account with this email address already exists")
+      return False
+  

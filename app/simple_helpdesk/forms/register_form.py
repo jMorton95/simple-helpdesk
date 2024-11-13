@@ -8,9 +8,8 @@ class RegisterForm(UserCreationForm):
         fields = ("email", "password1", "password2")
         
         error_messages = {
-        "password_mismatch": "The two password fields didn’t match. Please enter matching passwords.",
         "username": {
-            "unique": "This username is already taken. Please choose a different one.",
+            "unique": "An account with this email address already exists. Please choose a different one.",
         },
     }
         
@@ -37,6 +36,20 @@ class RegisterForm(UserCreationForm):
           'id': 'password2',
           'required': True,
       })
+      
+    def clean(self):
+      cleaned_data = super().clean()
+
+      password1 = cleaned_data.get('password1')
+      password2 = cleaned_data.get('password2')
+
+      if password1 and password2 and password1 != password2:
+          self.add_error('password2', "The two password fields didn’t match. Please enter matching passwords.")
+          
+      if User.objects.filter(username = cleaned_data.get('email')).exists():
+        self.add_error('email', "Already exists")
+      
+      return cleaned_data
 
     def save(self, commit=True):
         user = super().save(commit=False)

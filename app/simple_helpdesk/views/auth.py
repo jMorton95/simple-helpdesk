@@ -6,7 +6,7 @@ from simple_helpdesk.services.auth import AuthService
 def register(request):
   if request.method == "POST":
     if AuthService.register(request, RegisterForm(request.POST)):
-      return redirect("helpdesk/index.html")
+      return redirect("")
        
   return render(request, "authentication/register.html", {'form': RegisterForm})
 

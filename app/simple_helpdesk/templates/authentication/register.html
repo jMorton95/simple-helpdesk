@@ -38,6 +38,14 @@
         </div> 
       </div>
 
+      {% if messages %}
+      <ul>
+          {% for message in messages %}
+              <li class="text-danger">{{ message }}</li>
+          {% endfor %}
+      </ul>
+      {% endif %}
+
       <div class="mb-3 text-danger">
         <p>For testing purposes, do you want to create your account as an administrator? </p>
       </div>
@@ -55,14 +63,6 @@
         Already have an account? <a href="/login">Log in here</a>
       </p>
     </form>
-
-    {% if messages %}
-    <ul>
-        {% for message in messages %}
-            <li class="text-danger">{{ message }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
 
   </div>
 </div>
