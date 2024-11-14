@@ -6,9 +6,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    {% include "dependencies.html" %}
+    {% include "generic_components/dependencies.html" %}
   </head>
   <body>
-    {% block content %}{% endblock content %}
+
+    {% include "generic_components/nav_bar.html" %}
+
+    {% block content %}
+    
+    {% endblock content %}
+
   </body>
 </html>

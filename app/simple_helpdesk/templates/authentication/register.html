@@ -1,4 +1,4 @@
-{% extends "authentication/base_login.html" %}
+{% extends "authentication/base_auth.html" %}
 {% block title %} Register {% endblock %}
 {% block content %}
 <div class="container">
@@ -38,13 +38,7 @@
         </div> 
       </div>
 
-      {% if messages %}
-      <ul>
-          {% for message in messages %}
-              <li class="text-danger">{{ message }}</li>
-          {% endfor %}
-      </ul>
-      {% endif %}
+      {% include "generic_components/form_errors.html" %}
 
       <div class="mb-3 text-danger">
         <p>For testing purposes, do you want to create your account as an administrator? </p>
@@ -60,7 +54,7 @@
       </div>
 
       <p class="login-link mt-3">
-        Already have an account? <a href="/login">Log in here</a>
+        Already have an account? <a href="{% url 'sign_in' %}">Sign in here</a>
       </p>
     </form>
 

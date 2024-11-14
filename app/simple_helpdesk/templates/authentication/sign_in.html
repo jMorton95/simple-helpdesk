@@ -1,4 +1,4 @@
-{% extends "authentication/base_login.html" %}
+{% extends "authentication/base_auth.html" %}
 {% block title %} Login {% endblock %}
 {% block content %}
   <div class="container d-flex justify-content-center align-items-center vh-100">
@@ -8,7 +8,7 @@
           <div class="card-body p-4">
             <h3 class="card-title text-center mb-4">Login</h3>
 
-            <form method="POST" action="{% url 'login' %}">
+            <form method="POST" action="{% url 'sign_in' %}">
               {% csrf_token %}
               <div class="mb-3">
                 <label for="email" class="form-label">Email Address</label>
@@ -16,14 +16,7 @@
                   <span class="input-group-text"
                     ><i class="bi bi-envelope-fill"></i
                   ></span>
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="email"
-                    name="email"
-                    placeholder="Email address"
-                    required
-                  />
+                 {{form.username}}
                 </div>
               </div>
 
@@ -31,21 +24,11 @@
                 <label for="password" class="form-label">Password</label>
                 <div class="input-group">
                   <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="password"
-                    name="password"
-                    placeholder="Password"
-                    required
-                  />
+                 {{form.password}}
                 </div>
               </div>
-
-              <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
-                <label class="form-check-label" for="rememberMe">Remember me</label>
-              </div>
+              {{ form.errors }}
+              {% include "generic_components/form_errors.html" %}
 
               <button type="submit" class="btn btn-primary w-100">Login</button>
 
