@@ -1,0 +1,64 @@
+{% extends "authentication/base_auth.html" %}
+{% block title %} Register {% endblock %}
+{% block content %}
+<div class="container">
+  <div class="register-container">
+    <h2 class="register-title">Create Your Account</h2>
+
+    <form action="{% url 'register' %}" class="m-2" method="POST">
+      {% csrf_token %}
+   
+      <div class="mb-3">
+        {{form.email.errors}}
+        <label for="{{form.email.id_for_label}}" class="form-label">Email Address</label>
+        <div class="input-group">
+          <span class="input-group-text"
+            ><i class="bi bi-envelope-fill"></i
+          ></span>
+        {{form.email}}
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="{{form.password1.id_for_label}}" class="form-label">Password</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+          {{form.password1}}
+        </div>
+      </div>
+
+      <div class="mb-3">
+        {{form.password2.errors}}
+      <label for="{{form.password2.id_for_label}}" class="form-label"
+          >Confirm Password</label
+        >
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+         {{form.password2}}
+        </div> 
+      </div>
+
+      {% include "generic_components/form_errors.html" %}
+
+      <div class="mb-3 text-danger">
+        <p>For testing purposes, do you want to create your account as an administrator? </p>
+      </div>
+
+      <div class="mb-3 form-check">
+        <input type="checkbox" checked class="form-check-input" id="admin" name="admin">
+        <label class="form-check-label" for="admin">Administrator</label>
+      </div>
+
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary">Register</button>
+      </div>
+
+      <p class="login-link mt-3">
+        Already have an account? <a href="{% url 'sign_in' %}">Sign in here</a>
+      </p>
+    </form>
+
+  </div>
+</div>
+
+{% endblock content %}

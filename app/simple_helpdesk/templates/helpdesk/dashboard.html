@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %} Dashboard {% endblock %}
+{% block header %} Dashboard {% endblock %}
+
+{% block content %}
+
+<h2 class="my-4">Active Service Desks</h2>
+
+<section class="container mb-5">
+  <a href="#" class="btn btn-primary mt-2 mb-5">Create new Service Desk</a>
+  <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 g-4">
+    {% for project in projects %}
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title">{{project.name}}</h2>
+            <p class="card-text">{{project.description}}</p>
+          
+            {% if project.swimlanes %}
+              
+              <div class="card w-100 mb-4">
+                <h5 class="card-header">Swimlanes</h2>
+                <ul class="list-group list-group-flush g-4">
+
+                  {% for swimlane in project.swimlanes %}
+                  <li class="list-group-item">
+                    <div class="d-flex flex-column">
+                      <h6 class="fw-semibold">{{swimlane.name}}</h6>
+                      <p> Open Incidents: {{swimlane.tickets.count}}</p>
+                    </div>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+
+              <a href="#" class="btn btn-primary">View {{project.name}}</a>
+              
+            {% else %}
+              <h5>Project has no Swimlanes<h5/>
+            {% endif %}
+
+            <a href="#" class="btn btn-primary">Edit {{project.name}}</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<h2 class="my-4">Incidents assigned to you</h2>
+
+<section class="container mb-5">
+{%for incident in user_incidents %}
+  <p>{{incident.name}}</p>
+  <p>{{incident.description}}</p>
+  <p>{{incident.assignee.username}}</p>
+{% endfor %}
+</section>
+
+<div class="container my-5">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+      {% for ticket in user_incidents %}
+      <div class="col">
+          <div class="card">
+              <div class="card-body">
+                  <h5 class="card-title">{{ ticket.name }}</h5>
+                  <p class="card-text">{{ ticket.description }}</p>
+                  <h6 class="card-subtitle mb-2 text-muted">Assigned to: {{ ticket.assignee.username }}</h6>
+                  <p class="card-text"><strong>Swimlane:</strong> {{ ticket.ticket_swimlane.name }}</p>
+                  <p class="card-text"><strong>Priority:</strong> {{ ticket.ticket_priority }}</p>
+
+                  <h6 class="mt-3">Comments:</h6>
+                  {% for comment in ticket.comments %}
+                      <div class="border p-2 mb-2">
+                          <p><strong>{{ comment.created_at|date:"F j, Y, g:i a" }}:</strong> {{ comment.text }}</p>
+                      </div>
+                  {% empty %}
+                      <p>No comments yet.</p>
+                  {% endfor %}
+
+                  <a href="#" class="btn btn-primary">View Ticket</a>
+              </div>
+          </div>
+      </div>
+      {% endfor %}
+  </div>
+</div>
+
+{% endblock content %}
