@@ -1,16 +1,15 @@
 <nav class="text-light navbar navbar-expand-lg navbar-light">
   <div class="container">
-    <a class="navbar-brand text-light fw-semibold" href="{%url 'index' %}">Simple Helpdesk</a>
-    <span class="d-none d-md-block navbar-text me-3 text-light">
+    <a class="d-none d-md-block navbar-text me-3 text-light" href="{%url 'index' %}">
       Welcome, <span class="fw-bold">{{ user.username }}</span>.
-    </span>
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     
     <div class="collapse navbar-collapse" id="navbarNav">
       <div class="navbar-nav me-auto">
-        <a class="nav-item nav-link text-light fw-semibold" href="#">Some Link</a>
+        {% comment %} <a class="nav-item nav-link text-light fw-semibold" href="#">Some Link</a> {% endcomment %}
       </div>
       
       <div class="navbar-nav ms-auto align-items-center">

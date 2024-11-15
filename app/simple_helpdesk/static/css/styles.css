@@ -52,6 +52,11 @@ nav {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(25)
 }
 
+.btn-primary{
+  background-color: #8F00FF !important;
+  border-color: #9000ffdc !important;
+}
+
 .navbar-toggler{
   background-color: #FFFFFF !important;
 }

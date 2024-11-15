@@ -5,6 +5,6 @@ from simple_helpdesk.models import Project
 
 @login_required(login_url="/register")
 def index(request):
-  context = DashboardService.GetDashboardContext()
+  context = DashboardService.GetDashboardContext(request)
   
   return render(request, "helpdesk/dashboard.html", context)
