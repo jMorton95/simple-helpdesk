@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %} Dashboard {% endblock %}
+{% block header %} Projects {% endblock %}
+
+{% block content %}
+
+{% for project in projects %}
+
+  <div>{{project.name}}</div>
+
+    {% for swimlane in project.swimlanes %}
+      <div>{{swimlane.name}}</div>
+
+      {% for ticket in swimlane.tickets %}
+        <div>{{ticket.name}}</div>
+
+        <div>{{ticket.comments.count}}</div>
+
+      {% endfor %%}
+
+    {% endfor %%}
+
+{% endfor %}
+
+
+
+{% endblock content %}

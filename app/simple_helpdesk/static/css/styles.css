@@ -51,3 +51,11 @@ nav {
   background-color: #8F00FF;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(25)
 }
+
+.navbar-toggler{
+  background-color: #FFFFFF !important;
+}
+
+.navbar-toggler-icon {
+  background-color: #FFFFFF !important;
+}
