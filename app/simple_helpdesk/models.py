@@ -1,16 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class AuditableEntity:
-  created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="created_by")
-  created_at = models.DateTimeField(auto_now_add=True)
-  updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="updated_by")
+
+class AuditableEntity(models.Model):
+  created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="%(class)screated_by")
+  created_at = models.DateTimeField(auto_now_add=True, blank=True)
+  updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="%(class)supdated_by")
   updated_at = models.DateTimeField(auto_now=True)
   deleted = models.BooleanField(default=False)
-  deleted_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="deleted_by")
+  deleted_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="%(class)sdeleted_by")
   deleted_at = models.DateTimeField(null=True)
+  
+  class Meta:
+    abstract = True
 
-class Project(models.Model, AuditableEntity):
+class Project(AuditableEntity):
   name = models.CharField(max_length=40)
   description = models.CharField(max_length=1000)
   
@@ -18,7 +22,7 @@ class Project(models.Model, AuditableEntity):
   def swimlanes(self):
     return self.swimlane_set.all()
     
-class Swimlane(models.Model, AuditableEntity):
+class Swimlane(AuditableEntity):
   name = models.CharField(max_length=40)
   sort_order = models.IntegerField(default = 1)
   swimlane_project = models.ForeignKey(Project, on_delete=models.CASCADE)
@@ -28,7 +32,7 @@ class Swimlane(models.Model, AuditableEntity):
     return self.ticket_set.all()
 
 
-class Ticket(models.Model, AuditableEntity):
+class Ticket(AuditableEntity):
   name = models.CharField(max_length=100)
   description = models.CharField(max_length=1000)
   reporter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="ticket_reporter")
@@ -40,7 +44,7 @@ class Ticket(models.Model, AuditableEntity):
   def comments(self):
     return self.ticketcomment_set.all()
     
-class TicketComment(models.Model, AuditableEntity):
+class TicketComment(AuditableEntity):
   text = models.CharField(max_length=2500)
   parent_ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
 
