@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %} New Project {% endblock %}
+{% block header %} Create Project {% endblock %}
+
+{% block content %}
+<form action="{% url 'project_create' %}" method="POST">
+  {% csrf_token %}
+  {{ project_form.as_p }}
+
+    <h3>Add Swimlanes</h3>
+    <div id="swimlanes">
+      {% for form in swimlane_formset %}
+        <div class="form-row">
+          {{ form.as_p }}
+        </div>
+      {% empty %}
+        <p>No swimlanes added yet.</p>
+      {% endfor %}
+    </div>
+
+  <div class="d-grid gap-2">
+    <button type="submit" class="btn btn-primary">Create Project</button>
+  </div>
+</form>
+{% endblock %}

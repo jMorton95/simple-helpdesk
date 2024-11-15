@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -13,6 +14,21 @@ class AuditableEntity(models.Model):
   
   class Meta:
     abstract = True
+  
+  def create(self, user):
+    self.created_by = user
+    self.save()
+  
+  def update(self, user, **kwargs):
+    self.updated_by = user
+    for field, value in kwargs.items():
+      setattr(self, field, value)
+    
+  def soft_delete(self, user):
+    self.deleted = True
+    self.deleted_by = user
+    self.deleted_at = timezone.now
+    self.save()
 
 class Project(AuditableEntity):
   name = models.CharField(max_length=40)
