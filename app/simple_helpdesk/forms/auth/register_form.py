@@ -7,6 +7,12 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ("email", "password1", "password2")
         
+        error_messages = {
+          "password2": {
+            "common_password": "Password too common. Please increase the complexity of your password"
+          } 
+        }
+        
     def __init__(self, *args, **kwargs):
       super().__init__(*args, **kwargs)
 

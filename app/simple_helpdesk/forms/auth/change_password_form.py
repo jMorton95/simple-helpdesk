@@ -6,14 +6,14 @@ class ChangePasswordForm(PasswordChangeForm):
 
     self.fields['old_password'].widget.attrs.update({
         'class': 'form-control',
-        'placeholder': 'Please enter your current Password',
+        'placeholder': 'Please enter your current password',
         'id': 'old_password',
         'required': True,
     })
     
     self.fields['new_password1'].widget.attrs.update({
         'class': 'form-control',
-        'placeholder': 'Please enter a new Password',
+        'placeholder': 'Please enter a new password',
         'id': 'new_password1',
         'required': True,
     })

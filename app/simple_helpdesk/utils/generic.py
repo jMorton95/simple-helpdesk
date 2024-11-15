@@ -1,6 +1,6 @@
 from django.contrib import messages
 
-def validate_form(request, form) -> bool:
+def form_is_valid(request, form) -> bool:
   try:
     for _, errors in form.errors.items():
         for error in errors:
