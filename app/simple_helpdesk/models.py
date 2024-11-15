@@ -8,8 +8,8 @@ class AuditableEntity(models.Model):
   updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="%(class)supdated_by")
   updated_at = models.DateTimeField(auto_now=True)
   deleted = models.BooleanField(default=False)
-  deleted_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="%(class)sdeleted_by")
-  deleted_at = models.DateTimeField(null=True)
+  deleted_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="%(class)sdeleted_by")
+  deleted_at = models.DateTimeField(null=True, blank=True)
   
   class Meta:
     abstract = True
