@@ -14,26 +14,29 @@ def index(request):
   return render(request, "helpdesk/dashboard.html", context)
 
 @login_required(login_url="/register")
-@user_passes_test(is_admin, login_url="/", redirect_field_name=None)
+
 def create_project(request):
     if request.method == "POST":
         if ProjectService.CreateProject(request):
           return redirect("index")
     else:
-      context = ProjectService.GetEmptyProjectContext(request, False)
+      context = ProjectService.GetProjectContext(False)
 
     return render(request, "helpdesk/project_form.html", context)
 
 
 def edit_project(request, project_id):
-  if not ProjectService.EnsureProjectExists(project_id):
-    return redirect("404")
+  [result, project] = ProjectService.GetProjectIfExists(project_id)
+  if not result: return redirect("404")
   
-  if request.method == "PUT":
-    if ProjectService.EditProject(request, project_id):
+  if request.method == "POST":
+    if ProjectService.EditProject(request, project):
       return redirect("index")
   else:
-    context = ProjectService.GetEmptyProjectContext(request)
+    context = ProjectService.GetProjectContext(True, project)
 
-  return render(request, "helpdesk/project_form.html", context, True)
-    
+  return render(request, "helpdesk/project_form.html", context)
+
+@user_passes_test(is_admin, login_url="/", redirect_field_name=None)
+def delete_project(request, project_id):
+  return redirect("index")

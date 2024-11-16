@@ -1,13 +1,21 @@
 {% extends "base.html" %}
-{% block title %} New Project {% endblock %}
-{% block header %} Create Project {% endblock %}
+
+{% block title %}
+  {% if is_update %} Edit Project {% else %} New Project {% endif %}
+{% endblock %}
+
+{% block header %}
+  {% if is_update %} Update Project {% else %} Create Project {% endif %}
+{% endblock %}
 
 {% block content %}
-<form action="{% url 'project_create' %}" method="POST">
+<form 
+  action="{% if is_update %}{% url 'project_edit' project.id %}{% else %}{% url 'project_create' %}{% endif %}" 
+  method="POST">
   {% csrf_token %}
   {{ project_form.as_p }}
 
-  <h3>Add Swimlanes</h3>
+  <h3>{% if is_update %} Edit Swimlanes {% else %} Add Swimlanes {% endif %}</h3>
   <div id="swimlanes">
     {{ swimlane_formset.management_form }}
     {% for form in swimlane_formset %}
@@ -26,9 +34,12 @@
   <button type="button" id="add-swimlane" class="btn btn-secondary">Add Another Swimlane</button>
 
   <div class="d-grid gap-2 mt-3">
-    <button type="submit" class="btn btn-primary">Create Project</button>
+    <button type="submit" class="btn btn-primary">
+      {% if is_update %} Save Changes {% else %} Create Project {% endif %}
+    </button>
   </div>
 </form>
+
 
 <script>
   /*Immediately invoked function expression (IIFE) (https://developer.mozilla.org/en-US/docs/Glossary/IIFE)

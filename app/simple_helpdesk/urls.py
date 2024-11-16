@@ -8,6 +8,6 @@ urlpatterns = [
     path("signout", auth.sign_out, name="sign_out"),
     path("changepassword", auth.change_password, name="change_password"),
     path("project/create", helpdesk.create_project, name="project_create"),
-    path("project/edit/<int:pk>",helpdesk.edit_project, name="project_edit")
+    path("project/edit/<int:project_id>",helpdesk.edit_project, name="project_edit")
 ]
  

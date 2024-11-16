@@ -6,14 +6,17 @@ from simple_helpdesk.utils.generic import form_is_valid
 
 class ProjectService():
   
-  def GetEmptyProjectContext(is_update: bool):
-    project_form = ProjectForm()
-    swimlane_formset = SwimlaneFormSet(queryset=Swimlane.objects.none())
+  def GetProjectContext(is_update: bool, project: Project | None = None):
+    project_form = ProjectForm(instance=project)
+    swimlane_formset = SwimlaneFormSet(
+      queryset=Swimlane.objects.filter(swimlane_project=project) if project 
+      else Swimlane.objects.none())
     
     return {
         "project_form": project_form,
         "swimlane_formset": swimlane_formset,
-        "is_update": is_update
+        "is_update": is_update,
+        "project": project
     }
   
   def CreateProject(request) -> bool:
@@ -33,9 +36,9 @@ class ProjectService():
     else: 
       return False
     
-  def EditProject(request) -> bool:
-    project_form = ProjectForm(request.PUT)
-    swimlane_formset = SwimlaneFormSet(request.PUT, queryset=Swimlane.objects.filter(swimlane_project=project_form.instance))
+  def EditProject(request, project) -> bool:
+    project_form = ProjectForm(request.POST, instance=project)
+    swimlane_formset = SwimlaneFormSet(request.POST, queryset=Swimlane.objects.filter(swimlane_project=project))
     
     if form_is_valid(request, project_form) and form_is_valid(request, swimlane_formset):
       project = project_form.save(commit=False)
@@ -58,9 +61,9 @@ class ProjectService():
       return [True, "Success"]
     
     
-  def EnsureProjectExists(request, project_id) -> bool:
+  def GetProjectIfExists(project_id) -> Union[bool, Project | None]:
     try:
-      Project.objects.get(pk=project_id)
-      return True
+      project = Project.objects.get(pk=project_id)
+      return [True, project]
     except Project.DoesNotExist:
-      return False
+      return [False, None]
