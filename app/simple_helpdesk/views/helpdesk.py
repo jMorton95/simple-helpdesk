@@ -1,6 +1,7 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import redirect, render
-from simple_helpdesk.utils.generic import form_is_valid
+from simple_helpdesk.utils.auth import is_admin
+from simple_helpdesk.services.project_service import ProjectService
 from simple_helpdesk.services.dashboard_service import DashboardService
 from simple_helpdesk.forms.helpdesk.project_form import ProjectForm
 from simple_helpdesk.models import Swimlane
@@ -12,27 +13,27 @@ def index(request):
   
   return render(request, "helpdesk/dashboard.html", context)
 
-def project(request):
+@login_required(login_url="/register")
+@user_passes_test(is_admin, login_url="/", redirect_field_name=None)
+def create_project(request):
     if request.method == "POST":
-        project_form = ProjectForm(request.POST)
-        swimlane_formset = SwimlaneFormSet(request.POST)
-
-        if form_is_valid(request, project_form) and form_is_valid(request, swimlane_formset):
-            project = project_form.save(commit=False)
-            project.created_by = request.user
-            project.save()
-
-            for swimlane_form in swimlane_formset:
-                swimlane = swimlane_form.save(commit=False)
-                swimlane.swimlane_project = project
-                swimlane.save()
-
-            return redirect("index")
+        if ProjectService.CreateProject(request):
+          return redirect("index")
     else:
-        project_form = ProjectForm()
-        swimlane_formset = SwimlaneFormSet(queryset=Swimlane.objects.none())
+      context = ProjectService.GetEmptyProjectContext(request, False)
 
-    return render(request, "helpdesk/project_create.html", {
-        "project_form": project_form,
-        "swimlane_formset": swimlane_formset
-    })
+    return render(request, "helpdesk/project_form.html", context)
+
+
+def edit_project(request, project_id):
+  if not ProjectService.EnsureProjectExists(project_id):
+    return redirect("404")
+  
+  if request.method == "PUT":
+    if ProjectService.EditProject(request, project_id):
+      return redirect("index")
+  else:
+    context = ProjectService.GetEmptyProjectContext(request)
+
+  return render(request, "helpdesk/project_form.html", context, True)
+    

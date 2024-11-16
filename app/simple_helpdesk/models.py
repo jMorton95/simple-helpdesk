@@ -23,6 +23,7 @@ class AuditableEntity(models.Model):
     self.updated_by = user
     for field, value in kwargs.items():
       setattr(self, field, value)
+    self.save()
     
   def soft_delete(self, user):
     self.deleted = True
@@ -46,6 +47,11 @@ class Swimlane(AuditableEntity):
   @property
   def tickets(self):
     return self.ticket_set.all()
+  
+  def create(self, project, **kwargs):
+    self.swimlane_project = project
+    super().create(**kwargs)
+  
 
 
 class Ticket(AuditableEntity):

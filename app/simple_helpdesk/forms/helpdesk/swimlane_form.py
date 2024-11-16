@@ -7,4 +7,4 @@ class SwimlaneForm(forms.ModelForm):
         model = Swimlane
         fields = ['name', 'sort_order']
 
-SwimlaneFormSet = modelformset_factory(Swimlane, form=SwimlaneForm, extra=1)
+SwimlaneFormSet = modelformset_factory(Swimlane, form=SwimlaneForm, extra=0)
