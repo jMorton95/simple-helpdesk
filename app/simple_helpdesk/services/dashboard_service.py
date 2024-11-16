@@ -1,6 +1,4 @@
-from simple_helpdesk.models import Project, Swimlane, Ticket
-from django.db.models import Prefetch
-
+from simple_helpdesk.models import Project, Ticket
 
 class DashboardService():
   
@@ -9,6 +7,13 @@ class DashboardService():
       'swimlane_set__ticket_set__ticketcomment_set'
     )
 
-    user_incidents = Ticket.objects.filter(assignee_id=request.user.id).prefetch_related('assignee', 'ticket_swimlane', 'ticketcomment_set')  
+    tickets = Ticket.objects.prefetch_related('assignee', 'ticket_swimlane', 'ticketcomment_set')
     
-    return {"projects": projects, "user_incidents": user_incidents}
+    user_incidents = tickets.filter(assignee_id=request.user.id)
+    related_incidents = tickets.exclude(assignee_id=request.user.id);
+    
+    return {
+      "projects": projects,
+      "user_incidents": user_incidents,
+      "related_incidents": related_incidents
+    }

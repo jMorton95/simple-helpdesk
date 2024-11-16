@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -8,11 +9,27 @@ class AuditableEntity(models.Model):
   updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="%(class)supdated_by")
   updated_at = models.DateTimeField(auto_now=True)
   deleted = models.BooleanField(default=False)
-  deleted_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="%(class)sdeleted_by")
-  deleted_at = models.DateTimeField(null=True)
+  deleted_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="%(class)sdeleted_by")
+  deleted_at = models.DateTimeField(null=True, blank=True)
   
   class Meta:
     abstract = True
+  
+  def create(self, user):
+    self.created_by = user
+    self.save()
+  
+  def update(self, user, **kwargs):
+    self.updated_by = user
+    for field, value in kwargs.items():
+      setattr(self, field, value)
+    self.save()
+    
+  def soft_delete(self, user):
+    self.deleted = True
+    self.deleted_by = user
+    self.deleted_at = timezone.now
+    self.save()
 
 class Project(AuditableEntity):
   name = models.CharField(max_length=40)
@@ -30,6 +47,11 @@ class Swimlane(AuditableEntity):
   @property
   def tickets(self):
     return self.ticket_set.all()
+  
+  def create(self, project, **kwargs):
+    self.swimlane_project = project
+    super().create(**kwargs)
+  
 
 
 class Ticket(AuditableEntity):
