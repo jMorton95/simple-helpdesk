@@ -29,6 +29,7 @@
             >Name</label
           >
           <div class="input-group">
+           {{ form.id }}
            {{form.name}}
           </div> 
         </div>
@@ -94,7 +95,6 @@
 
 {% include "helpdesk/partials/delete_swimlane_modal.html" %}
 
-
 <script>
   /*Immediately invoked function expression (IIFE) (https://developer.mozilla.org/en-US/docs/Glossary/IIFE)
       This is required to dynamically append Swimlane form options that have HTML attributes the backend recognises as our form.
@@ -130,7 +130,7 @@
     });
 
     /* Collect and iterate over all current swimlanes, configure the delete_swimlane_modal.html
-      template variables to dynamically set the swimlane the user is targetting for deletion */
+    template variables to dynamically set the swimlane the user is targetting for deletion*/
     const deleteButtons = document.querySelectorAll('.remove-swimlane-btn');
 
     deleteButtons.forEach(function(button) {

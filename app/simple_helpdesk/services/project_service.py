@@ -50,9 +50,9 @@ class ProjectService():
       
       for swimlane_form in swimlane_formset:
           if swimlane_form.cleaned_data:
-              (swimlane_form
-                .save(commit=False)
-                .update(request.user))
+              swimlane = swimlane_form.save(commit=False)
+              swimlane.swimlane_project = project
+              swimlane.update(request.user)
       return True
     else: 
       return False
