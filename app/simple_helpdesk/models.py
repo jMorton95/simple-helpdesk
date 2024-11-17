@@ -86,4 +86,5 @@ class Ticket(AuditableEntity):
 class TicketComment(AuditableEntity):
   text = models.CharField(max_length=2500)
   parent_ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+  user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_comment")
 

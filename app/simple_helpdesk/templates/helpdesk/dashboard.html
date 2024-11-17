@@ -33,7 +33,7 @@
                 </ul>
               </div>
 
-              <a href="#" class="btn btn-primary">View {{project.name}}</a>
+              <a href="{% url "project_overview" project.id %}" class="btn btn-primary">View {{project.name}}</a>
               
             {% else %}
               <h5>Project has no Swimlanes<h5/>

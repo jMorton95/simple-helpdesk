@@ -1,13 +1,10 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import redirect, render
+from simple_helpdesk.utils.auth import is_admin
 from simple_helpdesk.services.ticket_service import TicketService
 from simple_helpdesk.services.swimlane_service import SwimlaneService
-from simple_helpdesk.utils.auth import is_admin
 from simple_helpdesk.services.project_service import ProjectService
 from simple_helpdesk.services.dashboard_service import DashboardService
-from simple_helpdesk.forms.helpdesk.project_form import ProjectForm
-from simple_helpdesk.models import Swimlane
-from simple_helpdesk.forms.helpdesk.swimlane_form import SwimlaneFormSet
 
 @login_required(login_url="/register")
 def index(request):
@@ -16,7 +13,6 @@ def index(request):
   return render(request, "helpdesk/dashboard.html", context)
 
 @login_required(login_url="/register")
-
 def create_project(request):
   if request.method == "POST":
       if ProjectService.CreateProject(request):
@@ -26,7 +22,7 @@ def create_project(request):
 
   return render(request, "helpdesk/project_form.html", context)
 
-
+@login_required(login_url="/register")
 def edit_project(request, project_id):
   [result, project] = ProjectService.GetProjectIfExists(project_id)
   if not result: return redirect("404")

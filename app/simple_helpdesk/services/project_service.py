@@ -1,6 +1,6 @@
 from typing import Union
-from simple_helpdesk.services.ticket_service import TicketService
-from simple_helpdesk.utils.auth import CreateUserContext, is_admin
+from django.db.models import Prefetch
+from simple_helpdesk.utils.auth import CreateUserContext
 from simple_helpdesk.models import Project, Swimlane, Ticket, TicketComment
 from simple_helpdesk.forms.helpdesk.project_form import ProjectForm
 from simple_helpdesk.forms.helpdesk.swimlane_form import SwimlaneFormSet
@@ -8,7 +8,7 @@ from simple_helpdesk.utils.generic import form_is_valid, get_object_if_exists
 
 class ProjectService():
 
-  def GetProjectContext(request, is_update: bool, project: Project | None = None):
+  def GetProjectFormContext(request, is_update: bool, project: Project | None = None):
     project_form = ProjectForm(instance=project)
     swimlane_formset = SwimlaneFormSet(
       queryset=Swimlane.objects.filter(swimlane_project=project) if project 
@@ -19,6 +19,20 @@ class ProjectService():
         "swimlane_formset": swimlane_formset,
         "is_update": is_update,
         "project": project
+    })
+  
+  def GetProjectContext(request, project: Project):
+    queryset = Project.objects.prefetch_related(
+        Prefetch('swimlane_set', queryset=Swimlane.objects.prefetch_related(
+            Prefetch('ticket_set', queryset=Ticket.objects.prefetch_related(
+                'assignee', 'reporter',
+                Prefetch('ticketcomment_set', queryset=TicketComment.objects.select_related('user')
+            ))
+        ))
+    )).filter(id=project.id).first()
+    
+    return CreateUserContext(request, {
+        'project': queryset,
     })
   
   def CreateProject(request) -> bool:
