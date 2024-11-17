@@ -1,13 +1,19 @@
+from typing import Union
 from django.contrib import messages
 
 def form_is_valid(request, form) -> bool:
   try:
-    if form.errors and form.errors.items() and len(form.errors.items()) > 0:
+    if form.errors and form.errors.items and len(form.errors.items()) > 0:
       for _, errors in form.errors.items():
           for error in errors:
             messages.error(request, error)
-    valid = form.is_valid()
-    return valid
   except Exception as e:
     print(str(e))
-  return False
+  return form.is_valid()
+
+def get_object_if_exists(model_class, object_id) -> Union[bool, object | None]:
+  try:
+      obj = model_class.objects.get(pk=object_id)
+      return [True, obj]
+  except model_class.DoesNotExist:
+      return [False, None]
