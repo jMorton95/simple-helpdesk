@@ -48,9 +48,9 @@ class Swimlane(AuditableEntity):
   def tickets(self):
     return self.ticket_set.all()
   
-  def create(self, project, **kwargs):
+  def create(self, project, user):
     self.swimlane_project = project
-    super().create(**kwargs)
+    super().create(user)
   
 
 

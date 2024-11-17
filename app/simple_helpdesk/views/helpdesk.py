@@ -16,13 +16,13 @@ def index(request):
 @login_required(login_url="/register")
 
 def create_project(request):
-    if request.method == "POST":
-        if ProjectService.CreateProject(request):
-          return redirect("index")
-    else:
-      context = ProjectService.GetProjectContext(False)
+  if request.method == "POST":
+      if ProjectService.CreateProject(request):
+        return redirect("index")
+ 
+  context = ProjectService.GetProjectContext(False)
 
-    return render(request, "helpdesk/project_form.html", context)
+  return render(request, "helpdesk/project_form.html", context)
 
 
 def edit_project(request, project_id):
@@ -32,8 +32,8 @@ def edit_project(request, project_id):
   if request.method == "POST":
     if ProjectService.EditProject(request, project):
       return redirect("index")
-  else:
-    context = ProjectService.GetProjectContext(True, project)
+ 
+  context = ProjectService.GetProjectContext(True, project)
 
   return render(request, "helpdesk/project_form.html", context)
 
