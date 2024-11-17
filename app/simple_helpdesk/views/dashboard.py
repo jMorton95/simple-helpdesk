@@ -18,7 +18,7 @@ def create_project(request):
       if ProjectService.CreateProject(request):
         return redirect("index")
  
-  context = ProjectService.GetProjectContext(request, False)
+  context = ProjectService.GetProjectFormContext(request, False)
 
   return render(request, "helpdesk/project_form.html", context)
 
@@ -30,7 +30,7 @@ def edit_project(request, project_id):
   if request.method == "POST":
     ProjectService.EditProject(request, project)
      
-  context = ProjectService.GetProjectContext(request, True, project)
+  context = ProjectService.GetProjectFormContext(request, True, project)
 
   return render(request, "helpdesk/project_form.html", context)
 

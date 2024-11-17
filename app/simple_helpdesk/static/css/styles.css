@@ -52,6 +52,25 @@ nav, footer {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(25)
 }
 
+.container {
+  min-height: 100%;
+}
+
+body{
+  padding-bottom: 75px;
+}
+
+footer {
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
 .btn-primary{
   background-color: #8F00FF !important;
   border-color: #9000ffdc !important;
