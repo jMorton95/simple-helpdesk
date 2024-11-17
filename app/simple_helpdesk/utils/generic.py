@@ -1,3 +1,4 @@
+from typing import Union
 from django.contrib import messages
 
 def form_is_valid(request, form) -> bool:
@@ -9,3 +10,10 @@ def form_is_valid(request, form) -> bool:
   except Exception as e:
     print(str(e))
   return form.is_valid()
+
+def get_object_if_exists(model_class, object_id) -> Union[bool, object | None]:
+  try:
+      obj = model_class.objects.get(pk=object_id)
+      return [True, obj]
+  except model_class.DoesNotExist:
+      return [False, None]

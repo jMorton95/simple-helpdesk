@@ -23,7 +23,7 @@
     {% for form in swimlane_formset %}
     <div class="form-row container">
       <div class="row">
-        <div class="mb-3 col-6">
+        <div class="mb-3 {% if is_admin %} col-5 {% else %} col-6 {% endif %}">
           {{form.name.errors}}
         <label for="{{form.name.id_for_label}}" class="form-label"
             >Name</label
@@ -32,33 +32,52 @@
            {{form.name}}
           </div> 
         </div>
-        <div class="mb-3 col-6">
+        <div class="mb-3 {% if is_admin %} col-5 {% else %} col-6 {% endif %}">
           {{form.sort_order.errors}}
         <label for="{{form.sort_order.id_for_label}}" class="form-label"
             >Sort Order</label
           >
           <div class="input-group">
            {{form.sort_order}}
-          </div> 
+          </div>
         </div>
+        {% if is_admin %}
+          <div class="col-2">
+            <p class="form-label">Delete forever?</p>
+            <button type="button" class="btn btn-danger remove-swimlane-btn"
+              data-swimlane-id="{{ form.instance.id }}"
+              data-swimlane-name="{{form.instance.name }}"
+              data-bs-toggle="modal"
+              data-bs-target="#delete_swimlane_modal">
+              Delete
+            </button>
+          </div>
+        {% endif %}
     </div>
       <hr class="hr" />
     </div>
   {% endfor %}
+  {% if is_update %}
+  <h3> New Swimlanes</h3>
+  {% endif %}
   </div>
 
   {% include "generic_components/form_errors.html" %}
 
   <div id="empty-form" style="display: none;">
     <div class="form-row container">
-      <div class="row">
-        <div class="mb-3 col-6">
+      <div class="row" id="form-__prefix__">
+        <div class="mb-3 col-5">
           <label for="form-__prefix__-name" class="form-label">Name</label>
           {{ swimlane_formset.empty_form.name }}
         </div>
-        <div class="mb-3 col-6">
+        <div class="mb-3 col-5">
           <label for="form-__prefix__-sort_order" class="form-label">Sort Order</label>
           {{ swimlane_formset.empty_form.sort_order }}
+        </div>
+        <div class="col-2">
+          <p class="form-label">No longer needed?</p>
+          <button type="button" class="btn btn-danger remove-swimlane-btn" style="display:none;">Remove</button>
         </div>
       </div>
     </div>
@@ -73,6 +92,8 @@
   </div>
 </form>
 
+{% include "helpdesk/partials/delete_swimlane_modal.html" %}
+
 
 <script>
   /*Immediately invoked function expression (IIFE) (https://developer.mozilla.org/en-US/docs/Glossary/IIFE)
@@ -83,17 +104,47 @@
     const swimlanesDiv = document.getElementById('swimlanes');
     const totalFormsInput = document.querySelector('#id_form-TOTAL_FORMS');
     const emptyFormDiv = document.getElementById('empty-form').innerHTML;
-    document.querySelectorAll('#swimlanes input').forEach(x => x.required = true)
-
+  
+    document.querySelectorAll('#swimlanes input').forEach(x => x.required = true);
+  
     let formIndex = parseInt(totalFormsInput.value, 10);
-
+  
     addSwimlaneButton.addEventListener('click', function () {
       const newFormHtml = emptyFormDiv.replace(/__prefix__/g, formIndex);
-      document.querySelectorAll('#swimlanes input').forEach(x => x.required = true)
       swimlanesDiv.insertAdjacentHTML('beforeend', newFormHtml);
+  
       formIndex++;
-
       totalFormsInput.value = formIndex;
+  
+      const removeButton = swimlanesDiv.querySelector(`#form-${formIndex - 1} .remove-swimlane-btn`);
+      removeButton.style.display = 'block';
+      
+
+      /* Allow each form created on the UI to remove itself if necessary and update the indexes of other forms. */
+      removeButton.addEventListener('click', function () {
+        const formRow = removeButton.closest('.form-row');
+        formRow.remove();
+        formIndex--;
+        totalFormsInput.value = formIndex;
+      });
+    });
+
+    /* Collect and iterate over all current swimlanes, configure the delete_swimlane_modal.html
+      template variables to dynamically set the swimlane the user is targetting for deletion */
+    const deleteButtons = document.querySelectorAll('.remove-swimlane-btn');
+
+    deleteButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        const swimlaneId = button.getAttribute('data-swimlane-id');
+        const swimlaneName = button.getAttribute('data-swimlane-name');
+        
+        const modalDescription = document.querySelector('#delete_swimlane_modal .modal-body p');
+        const modalFormAction = document.querySelector('#delete_swimlane_modal #modalForm');
+        
+        modalDescription.textContent = `This action is irreversible and will delete the Swimlane ${swimlaneName} and all associated tickets, forever. \n Are you sure you want to delete ${swimlaneName}?`;
+        
+        modalFormAction.setAttribute('action', `/project/{{project.id}}/swimlane/delete/${swimlaneId}`);
+      });
     });
   });
 </script>

@@ -2,6 +2,9 @@ from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import User
 
+class ActiveManager(models.Manager):
+  def get_queryset(self):
+    return super().get_queryset().filter(deleted=False)
 
 class AuditableEntity(models.Model):
   created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="%(class)screated_by")
@@ -11,6 +14,8 @@ class AuditableEntity(models.Model):
   deleted = models.BooleanField(default=False)
   deleted_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="%(class)sdeleted_by")
   deleted_at = models.DateTimeField(null=True, blank=True)
+  
+  objects = ActiveManager()
   
   class Meta:
     abstract = True
@@ -28,7 +33,13 @@ class AuditableEntity(models.Model):
   def soft_delete(self, user):
     self.deleted = True
     self.deleted_by = user
-    self.deleted_at = timezone.now
+    self.deleted_at = timezone.now()
+    self.save()
+    
+  def restore(self):
+    self.deleted = False
+    self.deleted_by = None
+    self.deleted_at = None
     self.save()
 
 class Project(AuditableEntity):
