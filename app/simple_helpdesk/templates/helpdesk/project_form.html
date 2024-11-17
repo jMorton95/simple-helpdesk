@@ -21,7 +21,7 @@
   <div id="swimlanes">
     {{ swimlane_formset.management_form }}
     {% for form in swimlane_formset %}
-    <div class="form-row container">
+    <div class="form-row container saved-swimlane">
       <div class="row">
         <div class="mb-3 {% if is_admin %} col-5 {% else %} col-6 {% endif %}">
           {{form.name.errors}}
@@ -99,53 +99,92 @@
   /*Immediately invoked function expression (IIFE) (https://developer.mozilla.org/en-US/docs/Glossary/IIFE)
       This is required to dynamically append Swimlane form options that have HTML attributes the backend recognises as our form.
   */
+  //TODO: There must be a simpler way of keeping track of our swimlanes dynamically, check Django docs for implicit methods
   document.addEventListener('DOMContentLoaded', function () {
     const addSwimlaneButton = document.getElementById('add-swimlane');
     const swimlanesDiv = document.getElementById('swimlanes');
     const totalFormsInput = document.querySelector('#id_form-TOTAL_FORMS');
     const emptyFormDiv = document.getElementById('empty-form').innerHTML;
-  
+
     document.querySelectorAll('#swimlanes input').forEach(x => x.required = true);
-  
+
     let formIndex = parseInt(totalFormsInput.value, 10);
-  
+
+    // Reindex forms and update management form data
+    function reindexForms() {
+      const forms = swimlanesDiv.querySelectorAll('.form-row.container:not(.saved-swimlane)');
+      forms.forEach((formRow, index) => {
+        formRow.querySelectorAll('[name]').forEach(input => {
+            const nameAttr = input.getAttribute('name');
+            const idAttr = input.getAttribute('id');
+            if (nameAttr) {
+                input.setAttribute('name', nameAttr.replace(/\d+/, index));
+            }
+            if (idAttr) {
+                input.setAttribute('id', idAttr.replace(/\d+/, index));
+            }
+        });
+      });
+      totalFormsInput.value = forms.length;
+    }
+
     addSwimlaneButton.addEventListener('click', function () {
       const newFormHtml = emptyFormDiv.replace(/__prefix__/g, formIndex);
       swimlanesDiv.insertAdjacentHTML('beforeend', newFormHtml);
-  
+
       formIndex++;
       totalFormsInput.value = formIndex;
-  
+
       const removeButton = swimlanesDiv.querySelector(`#form-${formIndex - 1} .remove-swimlane-btn`);
       removeButton.style.display = 'block';
-      
 
       /* Allow each form created on the UI to remove itself if necessary and update the indexes of other forms. */
       removeButton.addEventListener('click', function () {
         const formRow = removeButton.closest('.form-row');
+
+        // Prevent removal if the form is a database driven swimlane
+        if (formRow.classList.contains('saved-swimlane')) {
+          console.warn('Cannot remove a saved swimlane using this button.');
+          return;
+        }
+
         formRow.remove();
-        formIndex--;
-        totalFormsInput.value = formIndex;
+        reindexForms();
       });
     });
 
     /* Collect and iterate over all current swimlanes, configure the delete_swimlane_modal.html
-    template variables to dynamically set the swimlane the user is targetting for deletion*/
+    template variables to dynamically set the swimlane the user is targeting for deletion */
     const deleteButtons = document.querySelectorAll('.remove-swimlane-btn');
 
     deleteButtons.forEach(function(button) {
       button.addEventListener('click', function() {
-        const swimlaneId = button.getAttribute('data-swimlane-id');
-        const swimlaneName = button.getAttribute('data-swimlane-name');
-        
-        const modalDescription = document.querySelector('#delete_swimlane_modal .modal-body p');
-        const modalFormAction = document.querySelector('#delete_swimlane_modal #modalForm');
-        
-        modalDescription.textContent = `This action is irreversible and will delete the Swimlane ${swimlaneName} and all associated tickets, forever. \n Are you sure you want to delete ${swimlaneName}?`;
-        
-        modalFormAction.setAttribute('action', `/project/{{project.id}}/swimlane/delete/${swimlaneId}`);
+          const swimlaneId = button.getAttribute('data-swimlane-id');
+          const swimlaneName = button.getAttribute('data-swimlane-name');
+
+          const modalDescription = document.querySelector('#delete_swimlane_modal .modal-body p');
+          const modalFormAction = document.querySelector('#delete_swimlane_modal #modalForm');
+
+          modalDescription.textContent = `This action is irreversible and will delete the Swimlane ${swimlaneName} and all associated tickets, forever. \n Are you sure you want to delete ${swimlaneName}?`;
+
+          modalFormAction.setAttribute('action', `/project/{{project.id}}/swimlane/delete/${swimlaneId}`);
       });
     });
-  });
+
+    /* Allow removal of existing swimlanes on page load and ensure reindexing */
+    swimlanesDiv.addEventListener('click', function (event) {
+      if (event.target.classList.contains('remove-swimlane-btn')) {
+        const formRow = event.target.closest('.form-row');
+
+        if (formRow.classList.contains('saved-swimlane')) {
+          console.warn('Cannot remove a saved swimlane using this button.');
+          return;
+        }
+
+        formRow.remove();
+        reindexForms();
+      }
+    });
+});
 </script>
 {% endblock %}
