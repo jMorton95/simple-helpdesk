@@ -5,6 +5,10 @@ from django.contrib.auth.models import User
 class ActiveManager(models.Manager):
   def get_queryset(self):
     return super().get_queryset().filter(deleted=False)
+  
+class SwimlaneActiveManager(ActiveManager):
+  def get_queryset(self):
+    return super().get_queryset().filter(deleted=False).order_by('sort_order')
 
 class AuditableEntity(models.Model):
   created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="%(class)screated_by")
@@ -54,6 +58,8 @@ class Swimlane(AuditableEntity):
   name = models.CharField(max_length=40)
   sort_order = models.IntegerField(default = 1)
   swimlane_project = models.ForeignKey(Project, on_delete=models.CASCADE)
+  
+  objects = SwimlaneActiveManager()
   
   @property
   def tickets(self):

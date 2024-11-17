@@ -30,9 +30,8 @@ def edit_project(request, project_id):
   if not result: return redirect("404")
   
   if request.method == "POST":
-    if ProjectService.EditProject(request, project):
-      return redirect("index")
- 
+    ProjectService.EditProject(request, project)
+     
   context = ProjectService.GetProjectContext(request, True, project)
 
   return render(request, "helpdesk/project_form.html", context)
