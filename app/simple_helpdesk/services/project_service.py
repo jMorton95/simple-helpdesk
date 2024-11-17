@@ -7,10 +7,7 @@ from simple_helpdesk.forms.helpdesk.swimlane_form import SwimlaneFormSet
 from simple_helpdesk.utils.generic import form_is_valid, get_object_if_exists
 
 class ProjectService():
-  
-  def __init__(self):
-    pass
-  
+
   def GetProjectContext(request, is_update: bool, project: Project | None = None):
     project_form = ProjectForm(instance=project)
     swimlane_formset = SwimlaneFormSet(
