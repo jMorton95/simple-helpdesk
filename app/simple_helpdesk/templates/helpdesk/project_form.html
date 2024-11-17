@@ -9,6 +9,7 @@
 {% endblock %}
 
 {% block content %}
+<hr class="hr" />
 <form 
   action="{% if is_update %}{% url 'project_edit' project.id %}{% else %}{% url 'project_create' %}{% endif %}" 
   method="POST">
@@ -16,6 +17,7 @@
   {{ project_form.as_p }}
 
   <h3>{% if is_update %} Edit Swimlanes {% else %} Add Swimlanes {% endif %}</h3>
+  <hr class="hr" />
   <div id="swimlanes">
     {{ swimlane_formset.management_form }}
     {% for form in swimlane_formset %}
@@ -27,8 +29,19 @@
 
   {% include "generic_components/form_errors.html" %}
 
-  <div id="empty-form" class="form-row" style="display: none;">
-    {{ swimlane_formset.empty_form.as_p }}
+  <div id="empty-form" style="display: none;">
+    <div class="form-row container">
+      <div class="row">
+        <div class="mb-3 col-6">
+          <label for="form-__prefix__-name" class="form-label">Name</label>
+          {{ swimlane_formset.empty_form.name }}
+        </div>
+        <div class="mb-3 col-6">
+          <label for="form-__prefix__-sort_order" class="form-label">Sort Order</label>
+          {{ swimlane_formset.empty_form.sort_order }}
+        </div>
+      </div>
+    </div>
   </div>
 
   <button type="button" id="add-swimlane" class="btn btn-secondary">Add Another Swimlane</button>
@@ -50,11 +63,13 @@
     const swimlanesDiv = document.getElementById('swimlanes');
     const totalFormsInput = document.querySelector('#id_form-TOTAL_FORMS');
     const emptyFormDiv = document.getElementById('empty-form').innerHTML;
+    document.querySelectorAll('#swimlanes input').forEach(x => x.required = true)
 
     let formIndex = parseInt(totalFormsInput.value, 10);
 
     addSwimlaneButton.addEventListener('click', function () {
       const newFormHtml = emptyFormDiv.replace(/__prefix__/g, formIndex);
+      document.querySelectorAll('#swimlanes input').forEach(x => x.required = true)
       swimlanesDiv.insertAdjacentHTML('beforeend', newFormHtml);
       formIndex++;
 
