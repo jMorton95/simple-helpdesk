@@ -1,6 +1,7 @@
 from typing import Union
+from simple_helpdesk.services.ticket_service import TicketService
 from simple_helpdesk.utils.auth import CreateUserContext, is_admin
-from simple_helpdesk.models import Project, Swimlane
+from simple_helpdesk.models import Project, Swimlane, Ticket, TicketComment
 from simple_helpdesk.forms.helpdesk.project_form import ProjectForm
 from simple_helpdesk.forms.helpdesk.swimlane_form import SwimlaneFormSet
 from simple_helpdesk.utils.generic import form_is_valid, get_object_if_exists
@@ -56,9 +57,10 @@ class ProjectService():
       return True
     else: 
       return False
-    
+  
   def GetProjectIfExists(project_id) -> Union[bool, Project | None]:
-      return get_object_if_exists(Project, project_id)
+    return get_object_if_exists(Project, project_id)
 
-  def GetSwimlaneIfExists(swimlane_id) -> Union[bool, Swimlane | None]:
-      return get_object_if_exists(Swimlane, swimlane_id)
+ 
+    
+  
