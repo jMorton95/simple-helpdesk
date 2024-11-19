@@ -10,11 +10,15 @@
   </head>
   <body>
     {% include "generic_components/nav_bar.html" %}
-    <main class="container my-5">
-      <h1 class="mb-3">
-        {% block header %}Simple Helpdesk{% endblock header %}
-      </h1>
-
+    <main>
+      <section class="container my-5">
+        <div class="mb-3">
+        <h1>
+          {% block header %}Simple Helpdesk{% endblock header %}
+        </h1>
+        <h5>{% block description %}{% endblock description %} </h5>
+        </div>
+      </section>
       {% block content %} {% endblock content %}
     </main>
   {% include "generic_components/footer.html" %}

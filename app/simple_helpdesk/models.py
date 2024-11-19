@@ -50,6 +50,9 @@ class Project(AuditableEntity):
   name = models.CharField(max_length=40)
   description = models.CharField(max_length=1000)
   
+  def __str__(self):
+    return self.name
+  
   @property
   def swimlanes(self):
     return self.swimlane_set.all()
@@ -60,6 +63,9 @@ class Swimlane(AuditableEntity):
   swimlane_project = models.ForeignKey(Project, on_delete=models.CASCADE)
   
   objects = SwimlaneActiveManager()
+  
+  def __str__(self):
+    return f"{self.swimlane_project.name} - {self.name}"
   
   @property
   def tickets(self):
@@ -79,6 +85,9 @@ class Ticket(AuditableEntity):
   ticket_swimlane = models.ForeignKey(Swimlane, on_delete=models.CASCADE)
   ticket_priority = models.IntegerField(default=1)
   
+  def __str__(self):
+    return f"{self.ticket_swimlane.swimlane_project.name} - {self.ticket_swimlane.name} - {self.name}"
+  
   @property
   def comments(self):
     return self.ticketcomment_set.all()
@@ -86,4 +95,8 @@ class Ticket(AuditableEntity):
 class TicketComment(AuditableEntity):
   text = models.CharField(max_length=2500)
   parent_ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+  user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_comment")
+  
+  def __str__(self):
+    return f"Comment: {self.user.username} - {self.parent_ticket.name}"
 

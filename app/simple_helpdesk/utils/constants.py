@@ -1,0 +1,1 @@
+FORM_FIELD_CSS_CLASSES = "form-control"

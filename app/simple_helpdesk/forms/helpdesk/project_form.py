@@ -1,3 +1,4 @@
+from simple_helpdesk.utils.constants import FORM_FIELD_CSS_CLASSES
 from simple_helpdesk.models import Project
 from django import forms
 
@@ -7,9 +8,9 @@ class ProjectForm(forms.ModelForm):
     fields = ['name', 'description']
     widgets = {
       "name": forms.TextInput(attrs={
-        "class": "form-control", "required": True
+        "class": FORM_FIELD_CSS_CLASSES, "required": True
       }),
       "description": forms.Textarea(attrs={
-        "rows": 4, "cols": 40, "class": "form-control", "required": True
+        "rows": 4, "cols": 40, "class": FORM_FIELD_CSS_CLASSES, "required": True
       })
     }
