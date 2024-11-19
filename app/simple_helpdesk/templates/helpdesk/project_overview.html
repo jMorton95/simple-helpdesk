@@ -18,17 +18,17 @@
               <h4 class="m-0">{{ swimlane.name }}</h4>
             </div>
             <div class="card-body">
-              {% for ticket in swimlane.tickets %}
-                <div class="card ticket-card mb-3">
-                  <div class="card-header">
-                    <h5>{{ ticket.name }}</h5>
-                    <p>{{ ticket.description }} <p/>
-                  </div>
-                </div>
-              </div>
-              {% endfor %}
               {% if swimlane.tickets.count == 0 %}
                 <h5>Swimlane has no tickets</h5>
+              {% else %}
+                {% for ticket in swimlane.tickets %}
+                  <div class="card ticket-card mb-3">
+                    <div class="card-header">
+                      <h5>{{ ticket.name }}</h5>
+                      <p>{{ ticket.description }}</p>
+                    </div>
+                  </div>
+                {% endfor %}
               {% endif %}
             </div>
           </div>

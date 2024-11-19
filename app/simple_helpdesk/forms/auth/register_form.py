@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
+from simple_helpdesk.utils.constants import FORM_FIELD_CSS_CLASSES
 
 class RegisterForm(UserCreationForm):
   admin = forms.BooleanField(required=False, label="Administrator")
@@ -18,21 +19,21 @@ class RegisterForm(UserCreationForm):
     super().__init__(*args, **kwargs)
 
     self.fields['email'].widget.attrs.update({
-        'class': 'form-control',
+        'class': FORM_FIELD_CSS_CLASSES,
         'placeholder': 'Your email address',
         'id': 'email',
         'required': True,
     })
     
     self.fields['password1'].widget.attrs.update({
-        'class': 'form-control',
+        'class': FORM_FIELD_CSS_CLASSES,
         'placeholder': 'Password',
         'id': 'password1',
         'required': True,
     })
     
     self.fields['password2'].widget.attrs.update({
-        'class': 'form-control',
+        'class': FORM_FIELD_CSS_CLASSES,
         'placeholder': 'Confirm Password',
         'id': 'password2',
         'required': True,
