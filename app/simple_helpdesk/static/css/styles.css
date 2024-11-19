@@ -1,5 +1,6 @@
 :root {
-  --primary-color: #8F00FF;
+  --primary-color: #f3580acf;
+  --secondary-color: #e83030;
 }
 
 body {
@@ -76,7 +77,7 @@ footer {
 }
 
 .btn-primary{
-  background-color: var(--primary-color) !important;
+  background-color: var(--secondary-color) !important;
   border-color: #9000ffdc !important;
 }
 

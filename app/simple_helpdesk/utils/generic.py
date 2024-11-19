@@ -1,4 +1,4 @@
-from typing import Union
+from typing import List, Union
 from django.contrib import messages
 
 def form_is_valid(request, form) -> bool:
@@ -17,3 +17,10 @@ def get_object_if_exists(model_class, object_id) -> Union[bool, object | None]:
       return [True, obj]
   except model_class.DoesNotExist:
       return [False, None]
+    
+def merge_contexts(*args) -> dict:
+  new_context = {}
+  for obj in args:
+    if isinstance(obj, dict):
+      new_context.update(obj)
+  return new_context

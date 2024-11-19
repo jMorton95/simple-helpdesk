@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %} {{ project.name }} {% endblock %}
-{% block header %} {{ project.name }} {% endblock %}
+{% block header %} {{ project.name }} <a href="{% url "ticket_create" project.id %}" class="ms-5 btn btn-primary">Create ticket </a> {% endblock %}
 {% block description  %}Click on a ticket to view more details{% endblock description %}
 
 {% block content %}
@@ -33,7 +33,13 @@
       {% endfor %}
     </div>
   </div>
+
+  {% if ticket_form %}
+    {% include "helpdesk/ticket_form.html" %}
+  {% endif %}
 {% endblock %}
+
+
 
 
 {% comment %} <div class="card-body">
