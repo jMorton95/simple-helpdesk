@@ -2,10 +2,13 @@
 {% load static %}
 
 {% block title %} {{ project.name }} {% endblock %}
-{% block header %} {{ project.name }} <a href="{% url "ticket_create" project.id %}" class="ms-5 btn btn-primary">Create ticket </a> {% endblock %}
-{% block description  %}Click on a ticket to view more details{% endblock description %}
+{% block header %} {{ project.name }}  {% endblock %}
+{% block description  %}Click on a ticket to view more details {% endblock description %}
 
 {% block content %}
+  <div class="container">
+    <a href="{% url "ticket_create" project.id %}" class="-mt-5 btn btn-primary">Create new ticket </a>
+  </div>
   <div class="mx-3 my-4">
     <div class="row justify-content-center">
       {% for swimlane in swimlanes %}
@@ -22,10 +25,10 @@
                     <p>{{ ticket.description }} <p/>
                   </div>
                 </div>
+              </div>
               {% endfor %}
               {% if swimlane.tickets.count == 0 %}
                 <h5>Swimlane has no tickets</h5>
-              </div>
               {% endif %}
             </div>
           </div>
