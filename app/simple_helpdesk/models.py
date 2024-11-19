@@ -86,7 +86,7 @@ class Ticket(AuditableEntity):
   ticket_priority = models.IntegerField(default=1)
   
   def __str__(self):
-    return self.name
+    return f"{self.ticket_swimlane.swimlane_project.name} - {self.ticket_swimlane.name} - {self.name}"
   
   @property
   def comments(self):

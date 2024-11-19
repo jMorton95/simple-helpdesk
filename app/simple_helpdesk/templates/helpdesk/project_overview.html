@@ -3,28 +3,47 @@
 
 {% block title %} {{ project.name }} {% endblock %}
 {% block header %} {{ project.name }} {% endblock %}
+{% block description  %}Click on a ticket to view more details{% endblock description %}
 
 {% block content %}
-
-{% for swimlane in swimlanes  %}
-
-  <h2>{{swimlane.name}}</h2>
-
-  {% for ticket in swimlane.tickets  %}
-    <h3>{{ticket.name}}</h3>
-
-
-    <p>Assignee: {{ ticket.assignee.username }}</p>
-    <p>Reporter: {{ ticket.reporter.username }}</p>
-
-    {% for comment in ticket.comments %}
-
-    <p> Commenter: {{comment.user.username}}</p>
-    <p>{{comment.text}}<p/>
-
-    {% endfor %}
-  {% endfor %}
-
-{% endfor %}
-
+  <div class="mx-3 my-4">
+    <div class="row justify-content-center">
+      {% for swimlane in swimlanes %}
+        <div class="col-12 col-md-4 col-lg-3 mb-4">
+          <div class="card">
+            <div class="card-header bg-primary text-white">
+              <h4 class="m-0">{{ swimlane.name }}</h4>
+            </div>
+            <div class="card-body">
+              {% for ticket in swimlane.tickets %}
+                <div class="card ticket-card mb-3">
+                  <div class="card-header">
+                    <h5>{{ ticket.name }}</h5>
+                    <p>{{ ticket.description }} <p/>
+                  </div>
+                </div>
+              {% endfor %}
+              {% if swimlane.tickets.count == 0 %}
+                <h5>Swimlane has no tickets</h5>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 {% endblock %}
+
+
+{% comment %} <div class="card-body">
+  <p><strong>Assignee:</strong> {{ ticket.assignee.username }}</p>
+  <p><strong>Reporter:</strong> {{ ticket.reporter.username }}</p>
+
+  {% for comment in ticket.comments %}
+    <div class="border-top pt-2">
+      <p><strong>Commenter:</strong> {{ comment.user.username }}</p>
+      <p>{{ comment.text }}</p>
+    </div>
+  {% endfor %}
+</div> {% endcomment %}

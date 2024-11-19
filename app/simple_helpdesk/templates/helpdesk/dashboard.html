@@ -4,9 +4,10 @@
 
 {% block content %}
 
-<h2 class="my-4">Active Service Desks</h2>
+
 
 <section class="container mb-5">
+  <h2 class="my-4">Active Service Desks</h2>
   <a href="{% url "project_create" %}" class="btn btn-primary mt-2 mb-5">Create new Service Desk</a>
   <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 g-4">
     {% for project in projects %}

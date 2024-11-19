@@ -1,3 +1,7 @@
+:root {
+  --primary-color: #8F00FF;
+}
+
 body {
   background-color: #f0f2f5;
   font-family: Arial, sans-serif;
@@ -48,7 +52,7 @@ body {
   text-decoration: underline;
 }
 nav, footer {
-  background-color: #8F00FF;
+  background-color: var(--primary-color);
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(25)
 }
 
@@ -72,7 +76,7 @@ footer {
 }
 
 .btn-primary{
-  background-color: #8F00FF !important;
+  background-color: var(--primary-color) !important;
   border-color: #9000ffdc !important;
 }
 
@@ -82,4 +86,34 @@ footer {
 
 .navbar-toggler-icon {
   background-color: #FFFFFF !important;
+}
+
+.card-header.bg-primary {
+  background-color: var(--primary-color) !important;  
+}
+
+.card-body {
+  background-color: #f9f9f9; 
+}
+
+.card-header h5 {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.card {
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9; 
+}
+
+.ticket-card {
+  background-color: #FFFFFF !important;
+}
+
+.ticket-comment {
+  background-color: #f1f1f1;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
 }
