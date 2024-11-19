@@ -22,7 +22,7 @@ class ProjectService():
     })
   
   def GetProjectContext(request, project: Project):
-    queryset = Project.objects.prefetch_related(
+    project_data = Project.objects.prefetch_related(
         Prefetch('swimlane_set', queryset=Swimlane.objects.prefetch_related(
             Prefetch('ticket_set', queryset=Ticket.objects.prefetch_related(
                 'assignee', 'reporter',
@@ -32,7 +32,8 @@ class ProjectService():
     )).filter(id=project.id).first()
     
     return CreateUserContext(request, {
-        'project': queryset,
+        'project': project_data,
+        'swimlanes': project_data.swimlane_set.all(),
     })
   
   def CreateProject(request) -> bool:

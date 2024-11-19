@@ -6,4 +6,25 @@
 
 {% block content %}
 
+{% for swimlane in swimlanes  %}
+
+  <h2>{{swimlane.name}}</h2>
+
+  {% for ticket in swimlane.tickets  %}
+    <h3>{{ticket.name}}</h3>
+
+
+    <p>Assignee: {{ ticket.assignee.username }}</p>
+    <p>Reporter: {{ ticket.reporter.username }}</p>
+
+    {% for comment in ticket.comments %}
+
+    <p> Commenter: {{comment.user.username}}</p>
+    <p>{{comment.text}}<p/>
+
+    {% endfor %}
+  {% endfor %}
+
+{% endfor %}
+
 {% endblock %}
