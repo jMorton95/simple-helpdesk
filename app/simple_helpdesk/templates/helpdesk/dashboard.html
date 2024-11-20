@@ -7,8 +7,8 @@
 
 
 <section class="container mb-5">
-  <h2 class="my-4">Active Service Desks</h2>
-  <a href="{% url "project_create" %}" class="btn btn-primary mt-2 mb-5">Create new Service Desk</a>
+  <h2 class="my-4">Active Projects</h2>
+  <a href="{% url "project_create" %}" class="btn btn-primary mt-2 mb-5">Create new Project</a>
   <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 g-4">
     {% for project in projects %}
       <div class="col">
@@ -49,10 +49,10 @@
 </section>
 
 <section class="container">
-<h2 class="my-4">Incidents assigned to you</h2>
+<h2 class="my-4">Tickets assigned to you</h2>
 {% include "helpdesk/partials/ticket_list.html" with tickets=user_incidents %}
 
-<h2 class="my-4">Related incidents</h2>
+<h2 class="my-4">Related Tickets</h2>
 {% include "helpdesk/partials/ticket_list.html" with tickets=related_incidents %}
 </section>
 

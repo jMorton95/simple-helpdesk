@@ -91,6 +91,10 @@ class Ticket(AuditableEntity):
   @property
   def comments(self):
     return self.ticketcomment_set.all()
+  
+  def create(self, swimlane, user):
+    self.ticket_swimlane = swimlane
+    super().create(user)
     
 class TicketComment(AuditableEntity):
   text = models.CharField(max_length=2500)
