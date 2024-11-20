@@ -10,12 +10,36 @@
 {% block modal_content %}
   <script defer src="{% static "js/ticket_form.js" %}"></script>
  
-  <form method="POST"
-      action="{% if ticket %}{% url 'ticket_edit' project.id ticket.id%}{% else %}{%url 'ticket_create' project.id %}{% endif %}">
-    {% csrf_token %}
-    {{ ticket_form.as_p }}
-    {% include "generic_components/form_errors.html" %}
-    <button type="submit" class="btn btn-primary">{% if ticket %} Save {{ticket.name}} {% else %}Create Ticket {% endif %}</button>
-  </form>
+  <div class="container"> 
+    <div class="row justify-content-between">
+      <div class="col-6"> 
+        <form method="POST"
+            action="{% if ticket %}{% url 'ticket_edit' project.id ticket.id%}{% else %}{%url 'ticket_create' project.id %}{% endif %}">
+          {% csrf_token %}
+          {{ ticket_form.as_p }}
+          {% include "generic_components/form_errors.html" %}
+          <button type="submit" class="btn btn-primary">{% if ticket %} Save {{ticket.name}} {% else %}Create Ticket {% endif %}</button>
+        </form>
+      </div>
+      <div class="col-4"> 
+        {% if ticket.comments.count > 0 %}
+          {% for comment in ticket.comments %}
+          <div class="card">
+            <div class="card-body">
+              <strong>
+                {{comment.user.username}}
+              </strong>
+              <br />
+              <i>{{comment.updated_at|date:"D M d - g:i a"}}</i>
+              <p>{{comment.text}}</p>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <p>No comments yet</p>
+        {% endif %}
+    </div>
+    </div>
+  </div>
  
 {% endblock modal_content %}
