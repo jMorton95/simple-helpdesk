@@ -19,7 +19,7 @@
                       <p>No comments yet.</p>
                   {% endfor %}
 
-                  <a href="#" class="btn btn-primary">View Ticket</a>
+                  <a href="{% url "ticket_view" ticket.ticket_swimlane.swimlane_project.id ticket.id %}" class="btn btn-primary">View Ticket</a>
               </div>
           </div>
       </div>

@@ -39,6 +39,7 @@ class TicketForm(forms.ModelForm):
     self.fields['ticket_priority'] = forms.IntegerField(
       required=True,
       label="Priority",
+      initial=1,
       widget=forms.NumberInput(attrs={'class': FORM_FIELD_CSS_CLASSES, "min": 1})
     )
     

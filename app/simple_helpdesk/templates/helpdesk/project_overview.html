@@ -25,8 +25,10 @@
                 <a class="text-decoration-none" href="{% url "ticket_edit" project.id ticket.id %}"> 
                   <div class="card ticket-card mb-3">
                     <div class="card-header">
-                      <h5>{{ ticket.name }}</h5>
+                      <h5>{{ ticket.name }} - {% if ticket.assignee %}{{ticket.assignee}}{%else %}Unassigned{% endif %}</h5>
                       <p>{{ ticket.description }}</p>
+                      {% if ticket.comments.count %}<p>Comments: {{ticket.comments.count}}</p>{% endif %}
+                      <p>Last updated: {{ ticket.updated_at|date:"Y-m-d H:m:s" }}</p>
                     </div>
                   </div>
                 </a>

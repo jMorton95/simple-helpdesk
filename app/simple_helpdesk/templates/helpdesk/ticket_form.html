@@ -11,11 +11,7 @@
   <script defer src="{% static "js/ticket_form.js" %}"></script>
  
   <form method="POST"
-      action="{% if ticket  %}
-                {% url 'ticket_edit' project.id ticket.id%}
-              {% else %}'
-                {%url 'ticket_create' project.id %}
-              {% endif %}">
+      action="{% if ticket %}{% url 'ticket_edit' project.id ticket.id%}{% else %}{%url 'ticket_create' project.id %}{% endif %}">
     {% csrf_token %}
     {{ ticket_form.as_p }}
     {% include "generic_components/form_errors.html" %}

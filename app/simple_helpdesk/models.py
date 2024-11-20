@@ -10,6 +10,10 @@ class SwimlaneActiveManager(ActiveManager):
   def get_queryset(self):
     return super().get_queryset().filter(deleted=False).order_by('sort_order')
 
+class TicketActiveManager(ActiveManager):
+  def get_queryset(self):
+    return super().get_queryset().filter(deleted=False).order_by('ticket_priority') 
+
 class AuditableEntity(models.Model):
   created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="%(class)screated_by")
   created_at = models.DateTimeField(auto_now_add=True, blank=True)
@@ -84,6 +88,8 @@ class Ticket(AuditableEntity):
   assignee = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name="ticket_assignee")
   ticket_swimlane = models.ForeignKey(Swimlane, on_delete=models.CASCADE)
   ticket_priority = models.IntegerField(default=1)
+  
+  objects = TicketActiveManager()
   
   def __str__(self):
     return f"{self.ticket_swimlane.swimlane_project.name} - {self.ticket_swimlane.name} - {self.name}"
