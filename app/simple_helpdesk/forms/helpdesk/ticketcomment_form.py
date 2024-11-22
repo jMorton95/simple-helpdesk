@@ -14,6 +14,8 @@ class TicketCommentForm(forms.ModelForm):
     
     self.fields['text'] = forms.CharField(
       required=True,
+      label="",
+      help_text="",
       widget=forms.TextInput(attrs={'class': FORM_FIELD_CSS_CLASSES,  "min": 0, "max": 255})
     )
     

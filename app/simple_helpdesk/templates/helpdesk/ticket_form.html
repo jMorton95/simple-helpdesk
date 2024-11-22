@@ -13,12 +13,25 @@
   <div class="container"> 
     <div class="row justify-content-between">
       <div class="col-6"> 
+       
         <form method="POST"
             action="{% if ticket %}{% url 'ticket_edit' project.id ticket.id%}{% else %}{%url 'ticket_create' project.id %}{% endif %}">
           {% csrf_token %}
           {{ ticket_form.as_p }}
           {% include "generic_components/form_errors.html" %}
           <button type="submit" class="btn btn-primary">{% if ticket %} Save {{ticket.name}} {% else %}Create Ticket {% endif %}</button>
+            {% if is_admin %}
+              <btn
+                data-project-id="{{ project.id }}"
+                data-ticket-id="{{ ticket.id }}"
+                data-ticket-name="{{ ticket.name }}"
+                data-bs-toggle="modal"
+                data-bs-target="#delete_ticket_modal"
+                class="btn btn-danger remove-ticket-btn "
+                >
+                Delete Ticket?
+              </btn>
+          {% endif %}
         </form>
       </div>
       <div class="col-4 mx-auto justify-content-center"> 
@@ -26,33 +39,41 @@
           {% for comment in ticket.comments %}
           <div class="card mb-1">
             <div class="card-body">
-              <strong>
+              <strong class="d-flex justify-content-between">
                 {{comment.user.username}}
+                  {% if is_admin %}
+                    <btn
+                      data-project-id="{{ project.id }}"
+                      data-ticket-id="{{ ticket.id }}"
+                      data-comment-id="{{ comment.id }}"
+                      data-bs-toggle="modal"
+                      data-bs-target="#delete_comment_modal"
+                      class="btn btn-danger btn-sm remove-comment-btn bi-x"
+                    ></btn>
+                  {% endif %}
               </strong>
-              <br />
               <i>{{comment.updated_at|date:"D M d - g:i a"}}</i>
-              <p>{{comment.text}}</p>
+              <p class="mt-2">{{comment.text}}</p>
             </div>
           </div>
           {% endfor %}
-          <div class="card mb-1">
-            <div class="card-body">
-              <strong>
-                Add new comment
-              </strong>
-              <br />
-              <form method="POST" action="{% url "comment_create" project.id ticket.id %}">
-                {% csrf_token %}
-                {{ comment_form.as_p }}
-                <button type="submit" class="btn btn-primary">Save </button>
-              </form>
-            </div>
-          </div>
+         
         {% else %}
-          <p>No comments yet</p>
+          <p>No comments yet....</p>
         {% endif %}
-    </div>
+        <div class="card mb-1">
+          <div class="card-body">
+            <strong>
+              Add new comment
+            </strong>
+            <form method="POST" class="mt-2" action="{% url "comment_create" project.id ticket.id %}">
+              {% csrf_token %}
+              {{ comment_form.as_p }}
+              <button type="submit" class="btn btn-primary">Save </button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
- 
 {% endblock modal_content %}
