@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import redirect, render
+from simple_helpdesk.utils.generic import redirect_with_message
 from simple_helpdesk.utils.auth import is_admin
 from simple_helpdesk.services.ticket_service import TicketService
 from simple_helpdesk.services.swimlane_service import SwimlaneService
@@ -25,7 +26,7 @@ def create_project(request):
 @login_required(login_url="/register")
 def edit_project(request, project_id):
   [result, project] = ProjectService.GetProjectIfExists(project_id)
-  if not result: return redirect("404")
+  if not result: return redirect("index", "The selected project could not be found.")
   
   if request.method == "POST":
     ProjectService.EditProject(request, project)
@@ -38,10 +39,10 @@ def edit_project(request, project_id):
 def delete_project(request, project_id):
   [result, project] = ProjectService.GetProjectIfExists(project_id)
   if not result: 
-    return redirect("404")
-  else:
-    project.soft_delete(request.user)
-    SwimlaneService.DeleteProjectSwimlanes(request, project)
+    return redirect_with_message("index", "redirect_message", "Could not delete Project as it no longer exists.")
+  
+  project.soft_delete(request.user)
+  SwimlaneService.DeleteProjectSwimlanes(request, project)
     
   return redirect("index")
 
@@ -49,9 +50,9 @@ def delete_project(request, project_id):
 def delete_swimlane(request, project_id, swimlane_id):
   [result, swimlane] = SwimlaneService.GetSwimlaneIfExists(swimlane_id)
   if not result: 
-    return redirect("404")
-  else:
-    swimlane.soft_delete(request.user)
-    TicketService.DeleteSwimlaneTickets(request, swimlane)
+    return redirect_with_message("index", "redirect_message", "Could not delete Swimlane as it no longer exists.")
+  
+  swimlane.soft_delete(request.user)
+  TicketService.DeleteSwimlaneTickets(request, swimlane)
   
   return redirect("project_edit", project_id)

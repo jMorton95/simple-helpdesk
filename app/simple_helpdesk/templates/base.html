@@ -9,14 +9,18 @@
     {% include "generic_components/dependencies.html" %}
   </head>
   <body>
-    {% include "generic_components/nav_bar.html" %}
+  {% include "generic_components/nav_bar.html" %}
     <main>
       <section class="container my-5">
+        {% if request.GET.redirect_message %}
+          <h3>You were redirected because...</h3>
+          <h2 class="text-danger mb-5">{{request.GET.redirect_message}}<h2/>
+        {% endif %}
         <div class="mb-3">
-        <h1>
-          {% block header %}Simple Helpdesk{% endblock header %}
-        </h1>
-        <h5>{% block description %}{% endblock description %} </h5>
+          <h1>
+            {% block header %}Simple Helpdesk{% endblock header %}
+          </h1>
+          <h5>{% block description %}{% endblock description %} </h5>
         </div>
       </section>
       {% block content %} {% endblock content %}

@@ -45,7 +45,7 @@
     {% include "helpdesk/ticket_form.html" %}
   {% endif %}
 
-  {% if is_admin %}
+  {% if is_admin and ticket %}
     {% include "helpdesk/partials/delete_ticket_modal.html" %}
     {% include "helpdesk/partials/delete_comment_modal.html" %}
   {% endif %}

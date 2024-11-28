@@ -1,5 +1,8 @@
-from typing import List, Union
+from typing import Union
 from django.contrib import messages
+from django.shortcuts import redirect
+from django.urls import reverse
+from urllib.parse import urlencode
 
 def form_is_valid(request, form) -> bool:
   try:
@@ -24,3 +27,11 @@ def merge_contexts(*args) -> dict:
     if isinstance(obj, dict):
       new_context.update(obj)
   return new_context
+
+def redirect_with_message(action: str, name: str, message: str):
+  """
+    Redirect to a named action (see simple_helpdesk/urls.py) action with a query parameter encoded message to the UI.
+    
+    Typically used for redirecting a 404 error back to a page with descriptive message. 
+  """
+  return redirect(f"{reverse(action)}?{urlencode({name: message})}")

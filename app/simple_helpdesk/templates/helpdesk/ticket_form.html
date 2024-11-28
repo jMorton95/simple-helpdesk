@@ -7,13 +7,16 @@
   {% if ticket %} Edit {{ticket.name}} {% else %} Create new ticket? {% endif %} 
 {% endblock %}
 
+{% block modal_classes %}
+{% if ticket %}modal-xl{%else %}{% endif %}
+{% endblock %}
+
 {% block modal_content %}
   <script defer src="{% static "js/ticket_form.js" %}"></script>
  
   <div class="container"> 
     <div class="row justify-content-between">
-      <div class="col-6"> 
-       
+      <div class="{% if ticket %}col-6{% else %}col-12{% endif %}"> 
         <form method="POST"
             action="{% if ticket %}{% url 'ticket_edit' project.id ticket.id%}{% else %}{%url 'ticket_create' project.id %}{% endif %}">
           {% csrf_token %}
@@ -34,46 +37,49 @@
           {% endif %}
         </form>
       </div>
-      <div class="col-4 mx-auto justify-content-center"> 
-        {% if ticket.comments.count > 0 %}
-          {% for comment in ticket.comments %}
+      {% if ticket %}
+        <div class="col-4 mx-auto justify-content-center"> 
+          {% if ticket.comments.count > 0 %}
+            {% for comment in ticket.comments %}
+            <div class="card mb-1">
+              <div class="card-body">
+                <strong class="d-flex justify-content-between">
+                  {{comment.user.username}}
+                    {% if is_admin %}
+                      <btn
+                        data-project-id="{{ project.id }}"
+                        data-ticket-id="{{ ticket.id }}"
+                        data-comment-id="{{ comment.id }}"
+                        data-bs-toggle="modal"
+                        data-bs-target="#delete_comment_modal"
+                        class="btn btn-danger btn-sm remove-comment-btn bi-x"
+                      ></btn>
+                    {% endif %}
+                </strong>
+                <i>{{comment.updated_at|date:"D M d - g:i a"}}</i>
+                <p class="mt-2">{{comment.text}}</p>
+              </div>
+            </div>
+            {% endfor %}
+          
+          {% else %}
+            <p>No comments yet....</p>
+          {% endif %}
           <div class="card mb-1">
             <div class="card-body">
-              <strong class="d-flex justify-content-between">
-                {{comment.user.username}}
-                  {% if is_admin %}
-                    <btn
-                      data-project-id="{{ project.id }}"
-                      data-ticket-id="{{ ticket.id }}"
-                      data-comment-id="{{ comment.id }}"
-                      data-bs-toggle="modal"
-                      data-bs-target="#delete_comment_modal"
-                      class="btn btn-danger btn-sm remove-comment-btn bi-x"
-                    ></btn>
-                  {% endif %}
+              <strong>
+                Add new comment
               </strong>
-              <i>{{comment.updated_at|date:"D M d - g:i a"}}</i>
-              <p class="mt-2">{{comment.text}}</p>
+              <form method="POST" class="mt-2" action="{% url "comment_create" project.id ticket.id %}">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                <button type="submit" class="btn btn-primary">Save </button>
+              </form>
             </div>
           </div>
-          {% endfor %}
-         
-        {% else %}
-          <p>No comments yet....</p>
-        {% endif %}
-        <div class="card mb-1">
-          <div class="card-body">
-            <strong>
-              Add new comment
-            </strong>
-            <form method="POST" class="mt-2" action="{% url "comment_create" project.id ticket.id %}">
-              {% csrf_token %}
-              {{ comment_form.as_p }}
-              <button type="submit" class="btn btn-primary">Save </button>
-            </form>
-          </div>
         </div>
-      </div>
+      {% endif %}
     </div>
   </div>
+
 {% endblock modal_content %}

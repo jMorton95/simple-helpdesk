@@ -22,7 +22,7 @@
     {% csrf_token %}
     {{ project_form.as_p }}
 
-    {% if is_admin %}
+    {% if is_admin and is_update %}
     <div class="col-2 mb-5">
       <p class="form-label">Delete forever?</p>
       <button id="delete_project_button" type="button" class="btn btn-danger"
