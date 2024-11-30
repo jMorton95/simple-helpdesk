@@ -3,8 +3,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import reverse
 from urllib.parse import urlencode
-
-from app.simple_kanban.services.error_log_service import ErorrLogService
+from simple_kanban.services.error_log_service import ErorrLogService
 
 def form_is_valid(request, form) -> bool:
   """
