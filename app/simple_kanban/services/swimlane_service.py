@@ -6,8 +6,8 @@ from simple_kanban.models import Swimlane
 
 class SwimlaneService():
   
-  def GetSwimlaneIfExists(swimlane_id) -> Union[bool, Swimlane | None]:
-    return get_object_if_exists(Swimlane, swimlane_id)
+  def GetSwimlaneIfExists(request, swimlane_id) -> Union[bool, Swimlane | None]:
+    return get_object_if_exists(request, Swimlane, swimlane_id)
   
   def DeleteProjectSwimlanes(request, project):
     related_swimlanes = Swimlane.objects.filter(swimlane_project=project)

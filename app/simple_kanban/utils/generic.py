@@ -4,6 +4,8 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from urllib.parse import urlencode
 
+from app.simple_kanban.services.error_log_service import ErorrLogService
+
 def form_is_valid(request, form) -> bool:
   """
     Validates a form and displays any error messages.
@@ -34,12 +36,13 @@ def form_is_valid(request, form) -> bool:
   return form.is_valid()
 
 
-def get_object_if_exists(model_class, object_id) -> Union[bool, object | None]:
+def get_object_if_exists(request, model_class, object_id) -> Union[bool, object | None]:
   try:
       obj = model_class.objects.get(pk=object_id)
       return [True, obj]
   except model_class.DoesNotExist:
-      return [False, None]
+    ErorrLogService.write_log_to_db(request, 2, f"{str(model_class.__name__)} not found.")
+    return [False, None]
     
 def merge_contexts(*args) -> dict:
   new_context = {}

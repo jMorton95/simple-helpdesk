@@ -22,5 +22,5 @@ class TicketCommentService():
     else:
       return False
   
-  def GetCommentIfExists(comment_id) -> Union[bool, TicketComment | None]:
-    return get_object_if_exists(TicketComment, comment_id)
+  def GetCommentIfExists(request, comment_id) -> Union[bool, TicketComment | None]:
+    return get_object_if_exists(request, TicketComment, comment_id)

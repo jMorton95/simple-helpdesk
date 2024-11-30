@@ -78,7 +78,6 @@ class Swimlane(AuditableEntity):
   def create(self, project, user):
     self.swimlane_project = project
     super().create(user)
-  
 
 
 class Ticket(AuditableEntity):
@@ -110,3 +109,6 @@ class TicketComment(AuditableEntity):
   def __str__(self):
     return f"Comment: {self.user.username} - {self.parent_ticket.name}"
 
+class ErrorLog(AuditableEntity):
+  level = models.CharField(max_length=50)
+  message = models.CharField(max_length=2500)

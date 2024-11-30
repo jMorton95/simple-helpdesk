@@ -70,7 +70,6 @@ class ProjectService():
     else: 
       return False
   
-  def GetProjectIfExists(project_id) -> Union[bool, Project | None]:
-    return get_object_if_exists(Project, project_id)
-    
+  def GetProjectIfExists(request, project_id) -> Union[bool, Project | None]:
+    return get_object_if_exists(request, Project, project_id)
   
