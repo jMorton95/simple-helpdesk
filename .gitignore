@@ -163,3 +163,4 @@ cython_debug/
 #.idea/
 
 .simple-helpdesk
+.simple-kanban
