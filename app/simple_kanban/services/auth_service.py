@@ -1,4 +1,4 @@
-from simple_helpdesk.utils.generic import form_is_valid
+from simple_kanban.utils.generic import form_is_valid
 from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib.auth.models import User
 

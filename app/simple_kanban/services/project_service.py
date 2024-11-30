@@ -1,10 +1,10 @@
 from typing import Union
 from django.db.models import Prefetch
-from simple_helpdesk.utils.auth import CreateUserContext
-from simple_helpdesk.models import Project, Swimlane, Ticket, TicketComment
-from simple_helpdesk.forms.helpdesk.project_form import ProjectForm
-from simple_helpdesk.forms.helpdesk.swimlane_form import SwimlaneFormSet
-from simple_helpdesk.utils.generic import form_is_valid, get_object_if_exists
+from simple_kanban.utils.auth import CreateUserContext
+from simple_kanban.models import Project, Swimlane, Ticket, TicketComment
+from simple_kanban.forms.helpdesk.project_form import ProjectForm
+from simple_kanban.forms.helpdesk.swimlane_form import SwimlaneFormSet
+from simple_kanban.utils.generic import form_is_valid, get_object_if_exists
 
 class ProjectService():
 

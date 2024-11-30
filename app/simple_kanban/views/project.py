@@ -1,10 +1,10 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import redirect, render
-from simple_helpdesk.utils.auth import is_admin
-from simple_helpdesk.services.ticketcomment_service import TicketCommentService
-from simple_helpdesk.utils.generic import merge_contexts, redirect_with_message
-from simple_helpdesk.services.ticket_service import TicketService
-from simple_helpdesk.services.project_service import ProjectService
+from simple_kanban.utils.auth import is_admin
+from simple_kanban.services.ticketcomment_service import TicketCommentService
+from simple_kanban.utils.generic import merge_contexts, redirect_with_message
+from simple_kanban.services.ticket_service import TicketService
+from simple_kanban.services.project_service import ProjectService
 from django.contrib import messages
 
 @login_required(login_url="/register")

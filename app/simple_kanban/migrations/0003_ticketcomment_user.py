@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('simple_helpdesk', '0002_alter_project_deleted_at_alter_project_deleted_by_and_more'),
+        ('simple_kanban', '0002_alter_project_deleted_at_alter_project_deleted_by_and_more'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 

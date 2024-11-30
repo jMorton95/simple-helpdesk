@@ -30,7 +30,7 @@ def merge_contexts(*args) -> dict:
 
 def redirect_with_message(action: str, name: str, message: str):
   """
-    Redirect to a named action (see simple_helpdesk/urls.py) action with a query parameter encoded message to the UI.
+    Redirect to a named action (see simple_kanban/urls.py) action with a query parameter encoded message to the UI.
     
     Typically used for redirecting a 404 error back to a page with descriptive message. 
   """

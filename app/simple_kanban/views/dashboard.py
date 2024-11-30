@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import redirect, render
-from simple_helpdesk.utils.generic import redirect_with_message
-from simple_helpdesk.utils.auth import is_admin
-from simple_helpdesk.services.ticket_service import TicketService
-from simple_helpdesk.services.swimlane_service import SwimlaneService
-from simple_helpdesk.services.project_service import ProjectService
-from simple_helpdesk.services.dashboard_service import DashboardService
+from simple_kanban.utils.generic import redirect_with_message
+from simple_kanban.utils.auth import is_admin
+from simple_kanban.services.ticket_service import TicketService
+from simple_kanban.services.swimlane_service import SwimlaneService
+from simple_kanban.services.project_service import ProjectService
+from simple_kanban.services.dashboard_service import DashboardService
 
 @login_required(login_url="/register")
 def index(request):

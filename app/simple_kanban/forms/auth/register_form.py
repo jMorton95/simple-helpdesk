@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
-from simple_helpdesk.utils.constants import FORM_FIELD_CSS_CLASSES
+from simple_kanban.utils.constants import FORM_FIELD_CSS_CLASSES
 
 class RegisterForm(UserCreationForm):
   admin = forms.BooleanField(required=False, label="Administrator")

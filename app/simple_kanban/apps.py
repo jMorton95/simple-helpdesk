@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class SimpleHelpdeskConfig(AppConfig):
+class SimpleKanbanConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'simple_helpdesk'
+    name = 'simple_kanban'

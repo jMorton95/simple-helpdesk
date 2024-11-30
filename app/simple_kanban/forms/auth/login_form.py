@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import AuthenticationForm
-from simple_helpdesk.utils.constants import FORM_FIELD_CSS_CLASSES
+from simple_kanban.utils.constants import FORM_FIELD_CSS_CLASSES
 class LoginForm(AuthenticationForm):
   
   def __init__(self, *args, **kwargs):

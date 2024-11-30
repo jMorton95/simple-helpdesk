@@ -1,4 +1,4 @@
-from simple_helpdesk.models import Project, Ticket
+from simple_kanban.models import Project, Ticket
 
 class DashboardService():
   

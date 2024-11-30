@@ -1,6 +1,6 @@
 from django import forms
-from simple_helpdesk.utils.constants import FORM_FIELD_CSS_CLASSES
-from simple_helpdesk.models import Swimlane, Ticket
+from simple_kanban.utils.constants import FORM_FIELD_CSS_CLASSES
+from simple_kanban.models import Swimlane, Ticket
 from django.contrib.auth.models import User
 
 

@@ -1,7 +1,7 @@
 from typing import Union
-from simple_helpdesk.utils.generic import form_is_valid, get_object_if_exists
-from simple_helpdesk.forms.helpdesk.ticketcomment_form import TicketCommentForm
-from simple_helpdesk.models import TicketComment
+from simple_kanban.utils.generic import form_is_valid, get_object_if_exists
+from simple_kanban.forms.helpdesk.ticketcomment_form import TicketCommentForm
+from simple_kanban.models import TicketComment
 
 class TicketCommentService():
   def DeleteTicketComments(request, ticket):

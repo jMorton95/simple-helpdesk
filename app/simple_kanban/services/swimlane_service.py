@@ -1,7 +1,7 @@
 from typing import Union
-from simple_helpdesk.services.ticket_service import TicketService
-from simple_helpdesk.utils.generic import get_object_if_exists
-from simple_helpdesk.models import Swimlane
+from simple_kanban.services.ticket_service import TicketService
+from simple_kanban.utils.generic import get_object_if_exists
+from simple_kanban.models import Swimlane
 
 
 class SwimlaneService():

@@ -44,7 +44,7 @@ class Migration(migrations.Migration):
                 ('sort_order', models.IntegerField(default=1)),
                 ('created_by', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='%(class)screated_by', to=settings.AUTH_USER_MODEL)),
                 ('deleted_by', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='%(class)sdeleted_by', to=settings.AUTH_USER_MODEL)),
-                ('swimlane_project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='simple_helpdesk.project')),
+                ('swimlane_project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='simple_kanban.project')),
                 ('updated_by', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='%(class)supdated_by', to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -66,7 +66,7 @@ class Migration(migrations.Migration):
                 ('created_by', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='%(class)screated_by', to=settings.AUTH_USER_MODEL)),
                 ('deleted_by', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='%(class)sdeleted_by', to=settings.AUTH_USER_MODEL)),
                 ('reporter', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='ticket_reporter', to=settings.AUTH_USER_MODEL)),
-                ('ticket_swimlane', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='simple_helpdesk.swimlane')),
+                ('ticket_swimlane', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='simple_kanban.swimlane')),
                 ('updated_by', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='%(class)supdated_by', to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -84,7 +84,7 @@ class Migration(migrations.Migration):
                 ('text', models.CharField(max_length=2500)),
                 ('created_by', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='%(class)screated_by', to=settings.AUTH_USER_MODEL)),
                 ('deleted_by', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='%(class)sdeleted_by', to=settings.AUTH_USER_MODEL)),
-                ('parent_ticket', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='simple_helpdesk.ticket')),
+                ('parent_ticket', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='simple_kanban.ticket')),
                 ('updated_by', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='%(class)supdated_by', to=settings.AUTH_USER_MODEL)),
             ],
             options={

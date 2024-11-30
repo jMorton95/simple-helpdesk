@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, update_session_auth_hash
-from simple_helpdesk.services.auth_service import AuthenticationService
-from simple_helpdesk.forms.auth.login_form import LoginForm
-from simple_helpdesk.utils.generic import form_is_valid
-from simple_helpdesk.forms.auth.register_form import RegisterForm
-from simple_helpdesk.forms.auth.change_password_form import ChangePasswordForm
+from simple_kanban.services.auth_service import AuthenticationService
+from simple_kanban.forms.auth.login_form import LoginForm
+from simple_kanban.utils.generic import form_is_valid
+from simple_kanban.forms.auth.register_form import RegisterForm
+from simple_kanban.forms.auth.change_password_form import ChangePasswordForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
