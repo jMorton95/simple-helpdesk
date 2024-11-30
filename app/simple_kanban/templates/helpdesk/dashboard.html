@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %} Dashboard {% endblock %}
+{% block header %} Dashboard {% endblock %}
+
+{% block content %}
+
+<section class="container mb-5">
+  <h2 class="my-4">Active Projects</h2>
+  <a href="{% url "project_create" %}" class="btn btn-primary mt-2 mb-5">Create new Project</a>
+  <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 g-4">
+    {% for project in projects %}
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title">{{project.name}}</h2>
+            <p class="card-text">{{project.description}}</p>
+          
+            {% if project.swimlanes %}
+              
+              <div class="card w-100 mb-4">
+                <h5 class="card-header">Swimlanes</h2>
+                <ul class="list-group list-group-flush g-4">
+
+                  {% for swimlane in project.swimlanes %}
+                  <li class="list-group-item">
+                    <div class="d-flex flex-column">
+                      <h6 class="fw-semibold">{{swimlane.name}}</h6>
+                      <p> Open Incidents: {{swimlane.tickets.count}}</p>
+                    </div>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+
+              <a href="{% url "project_overview" project.id %}" class="mb-1 btn btn-primary">View {{project.name}}</a>
+              
+            {% else %}
+              <h5>Project has no Swimlanes<h5/>
+            {% endif %}
+
+            <a href="{% url "project_edit" project.id %}" class="mb-1 btn btn-primary">Edit {{project.name}}</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="container">
+<h2 class="my-4">Tickets assigned to you</h2>
+{% include "helpdesk/partials/ticket_list.html" with tickets=user_incidents %}
+
+<h2 class="my-4">Related Tickets</h2>
+{% include "helpdesk/partials/ticket_list.html" with tickets=related_incidents %}
+</section>
+
+{% endblock content %}

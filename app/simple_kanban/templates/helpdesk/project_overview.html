@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {{ project.name }} {% endblock %}
+{% block header %} {{ project.name }}  {% endblock %}
+{% block description  %}Click on a ticket to view more details {% endblock description %}
+
+{% block content %}
+  <div class="container">
+    <a href="{% url "ticket_new" project.id %}" class="-mt-5 btn btn-primary">Create new ticket </a>
+  </div>
+  <div class="mx-3 my-4">
+    <div class="row justify-content-center">
+      {% for swimlane in swimlanes %}
+        <div class="col-12 col-md-4 col-lg-3 mb-4">
+          <div class="card">
+            <div class="card-header bg-primary text-white">
+              <h4 class="m-0">{{ swimlane.name }}</h4>
+            </div>
+            <div class="card-body">
+              {% if swimlane.tickets.count == 0 %}
+                <h5>Swimlane has no tickets</h5>
+              {% else %}
+                {% for ticket in swimlane.tickets %}
+                <a class="text-decoration-none" href="{% url "ticket_edit" project.id ticket.id %}"> 
+                  <div class="card ticket-card mb-3">
+                    <div class="card-header">
+                      <h5>{{ ticket.name }} - {% if ticket.assignee %}{{ticket.assignee}}{%else %}Unassigned{% endif %}</h5>
+                      <p>{{ ticket.description }}</p>
+                      {% if ticket.comments.count %}<p>Comments: {{ticket.comments.count}}</p>{% endif %}
+                      <p>Last updated: {{ ticket.updated_at|date:"Y-m-d H:m:s" }}</p>
+                    </div>
+                  </div>
+                </a>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% if ticket_form %}
+    {% include "helpdesk/ticket_form.html" %}
+  {% endif %}
+
+  {% if is_admin and ticket %}
+    {% include "helpdesk/partials/delete_ticket_modal.html" %}
+    {% include "helpdesk/partials/delete_comment_modal.html" %}
+  {% endif %}
+{% endblock %}

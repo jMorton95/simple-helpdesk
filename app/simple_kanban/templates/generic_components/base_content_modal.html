@@ -1,0 +1,13 @@
+<div class="modal show{% block modal_classes %}{% endblock %}" id="{% block modal_id %}modal-id{% endblock %}" tabindex="-1" aria-labelledby="customModalLabel" aria-hidden="false">
+  <div class="modal-dialog content-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="customModalLabel">{% block modal_title %}Modal Title{% endblock %}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>{% block modal_content %}{% endblock %}</p>
+      </div>
+    </div>
+  </div>
+</div>
