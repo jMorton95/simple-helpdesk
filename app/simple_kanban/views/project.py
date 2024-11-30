@@ -15,7 +15,7 @@ def overview(request, project_id):
 
   context = ProjectService.GetProjectContext(request, project)
   
-  return render(request, "helpdesk/project_overview.html", context)
+  return render(request, "kanban/project_overview.html", context)
 
 @login_required(login_url="/register")
 def create_ticket_form(request, project_id):
@@ -26,7 +26,7 @@ def create_ticket_form(request, project_id):
   project_context = ProjectService.GetProjectContext(request, project)
   create_ticket_context = TicketService.GetCreateTicketContext(request, project_id)
   
-  return render(request, "helpdesk/project_overview.html", merge_contexts(project_context, create_ticket_context))
+  return render(request, "kanban/project_overview.html", merge_contexts(project_context, create_ticket_context))
 
 @login_required(login_url="/register")
 def create_ticket(request, project_id):
@@ -47,7 +47,7 @@ def edit_ticket_form(request, project_id, ticket_id):
   edit_ticket_context = TicketService.GetEditTicketContext(request, ticket)
   comment_context = TicketCommentService.GetTicketCreateContext()
   
-  return render (request, "helpdesk/project_overview.html", merge_contexts(project_context, edit_ticket_context, comment_context))
+  return render (request, "kanban/project_overview.html", merge_contexts(project_context, edit_ticket_context, comment_context))
 
 @login_required(login_url="/register")
 def edit_ticket(request, project_id, ticket_id):

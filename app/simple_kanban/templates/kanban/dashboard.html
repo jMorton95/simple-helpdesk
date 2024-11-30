@@ -48,10 +48,10 @@
 
 <section class="container">
 <h2 class="my-4">Tickets assigned to you</h2>
-{% include "helpdesk/partials/ticket_list.html" with tickets=user_incidents %}
+{% include "kanban/partials/ticket_list.html" with tickets=user_incidents %}
 
 <h2 class="my-4">Related Tickets</h2>
-{% include "helpdesk/partials/ticket_list.html" with tickets=related_incidents %}
+{% include "kanban/partials/ticket_list.html" with tickets=related_incidents %}
 </section>
 
 {% endblock content %}

@@ -42,11 +42,11 @@
   </div>
 
   {% if ticket_form %}
-    {% include "helpdesk/ticket_form.html" %}
+    {% include "kanban/ticket_form.html" %}
   {% endif %}
 
   {% if is_admin and ticket %}
-    {% include "helpdesk/partials/delete_ticket_modal.html" %}
-    {% include "helpdesk/partials/delete_comment_modal.html" %}
+    {% include "kanban/partials/delete_ticket_modal.html" %}
+    {% include "kanban/partials/delete_comment_modal.html" %}
   {% endif %}
 {% endblock %}
