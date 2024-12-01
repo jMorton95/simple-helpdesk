@@ -12,10 +12,6 @@
   {% include "generic_components/nav_bar.html" %}
     <main>
       <section class="container my-5">
-        {% if request.GET.redirect_message %}
-          <h3>You were redirected because...</h3>
-          <h2 class="text-danger mb-5">{{request.GET.redirect_message}}<h2/>
-        {% endif %}
         <div class="mb-3">
           <h1>
             {% block header %}Simple kanban{% endblock header %}
@@ -23,7 +19,13 @@
           <h5>{% block description %}{% endblock description %} </h5>
         </div>
       </section>
-      {% block content %} {% endblock content %}
+
+      {% block content %}
+
+      {% endblock content %}
+
+      {% include "generic_components/toaster.html" %}
+
     </main>
   {% include "generic_components/footer.html" %}
   </body>

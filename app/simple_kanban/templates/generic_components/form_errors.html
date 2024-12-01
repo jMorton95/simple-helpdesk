@@ -1,7 +1,7 @@
 {% if messages %}
-<ul>
-    {% for message in messages %}
-        <li class="text-danger">{{ message }}</li>
-    {% endfor %}
-</ul>
+  {% for message in messages %}
+    {% if not 'toast' in message.tags %}
+      <li class="text-danger">{{ message }}</li>
+    {% endif %}
+  {% endfor %}
 {% endif %}
