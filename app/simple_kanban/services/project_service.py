@@ -2,8 +2,8 @@ from typing import Union
 from django.db.models import Prefetch
 from simple_kanban.utils.auth import CreateUserContext
 from simple_kanban.models import Project, Swimlane, Ticket, TicketComment
-from simple_kanban.forms.helpdesk.project_form import ProjectForm
-from simple_kanban.forms.helpdesk.swimlane_form import SwimlaneFormSet
+from simple_kanban.forms.kanban.project_form import ProjectForm
+from simple_kanban.forms.kanban.swimlane_form import SwimlaneFormSet
 from simple_kanban.utils.generic import form_is_valid, get_object_if_exists
 
 class ProjectService():
@@ -70,7 +70,6 @@ class ProjectService():
     else: 
       return False
   
-  def GetProjectIfExists(project_id) -> Union[bool, Project | None]:
-    return get_object_if_exists(Project, project_id)
-    
+  def GetProjectIfExists(request, project_id) -> Union[bool, Project | None]:
+    return get_object_if_exists(request, Project, project_id)
   
