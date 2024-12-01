@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import reverse
 from urllib.parse import urlencode
+from simple_kanban.services.toast_service import ToastService
 from simple_kanban.services.error_log_service import ErorrLogService
 
 def form_is_valid(request, form) -> bool:
@@ -74,10 +75,16 @@ def merge_contexts(*args) -> dict:
       new_context.update(obj)
   return new_context
 
-def redirect_with_message(action: str, name: str, message: str):
+def redirect_with_message(request, action: str, toast_header: str, message: str, *args):
   """
-    Redirect to a named action (see simple_kanban/urls.py) action with a query parameter encoded message to the UI.
+  Redirect to a named action (see simple_kanban/urls.py) action with a query parameter encoded message to the UI.
+  
+  The `args` are used for dynamic URL parameters, which will be passed to the reverse function.
 
-    Typically used for redirecting a 404 error back to a page with descriptive message. 
+  Typically used for redirecting a 404 error back to a page with a descriptive message. 
   """
-  return redirect(f"{reverse(action)}?{urlencode({name: message})}")
+  ToastService.send_toast_message(request, toast_header, message)
+  
+  redirect_url = reverse(action, args=args)
+  
+  return redirect(f"{redirect_url}")

@@ -1,0 +1,35 @@
+{% for message in messages %}
+  {% if message %}
+    <script type="application/json" id="toast-message">
+      {{ message|safe }}
+    </script>
+  {% endif %}
+{% endfor %}
+
+<div class="toast-container position-static">
+  <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto" id="toast-header"></strong>
+      <small class="text-body-secondary">just now</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body" id="toast-body">
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const toastMessage = JSON.parse(document.getElementById('toast-message').textContent);
+    const toastHeader = document.getElementById('toast-header');
+    const toastBody = document.getElementById('toast-body');
+
+    if (toastMessage && toastMessage.toast_header && toastMessage.toast_body_text) {
+      toastHeader.textContent = toastMessage.toast_header;
+      toastHeader.parentElement.classList.add(toastMessage.toast_header === 'Success' ? "bg-secondary-custom" : "bg-danger")
+      toastBody.textContent = toastMessage.toast_body_text;
+
+      const toast = new bootstrap.Toast(document.querySelector('.toast'));
+      toast.show();
+    }
+  });
+</script>

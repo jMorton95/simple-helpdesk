@@ -2,7 +2,6 @@
 from simple_kanban.models import ErrorLog
 
 
-
 class ErorrLogService():
   severity = ["Critical", "Warning", "Info", "Debug"]
 
@@ -19,4 +18,4 @@ class ErorrLogService():
       log_entry = ErrorLog(level=ErorrLogService.get_severity(level), message=message)
       return log_entry.create(request.user)
     except Exception as ex:
-      return print(f"Critical Error occurred when adding log: {message}")
+      return print(f"Critical Error occurred when adding log: {message} - {str(ex)}")
