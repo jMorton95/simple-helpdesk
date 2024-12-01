@@ -2,7 +2,6 @@ from typing import Union
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import reverse
-from urllib.parse import urlencode
 from simple_kanban.services.toast_service import ToastService
 from simple_kanban.services.error_log_service import ErorrLogService
 
@@ -75,7 +74,7 @@ def merge_contexts(*args) -> dict:
       new_context.update(obj)
   return new_context
 
-def redirect_with_message(request, action: str, toast_header: str, message: str, *args):
+def redirect_with_toast(request, action: str, toast_header: str, message: str, *args):
   """
   Redirect to a named action (see simple_kanban/urls.py) action with a query parameter encoded message to the UI.
   

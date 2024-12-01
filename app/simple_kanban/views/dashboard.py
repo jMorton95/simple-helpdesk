@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.shortcuts import redirect, render
-from simple_kanban.utils.generic import redirect_with_message
+from django.shortcuts import render
+from simple_kanban.utils.generic import redirect_with_toast
 from simple_kanban.utils.auth import is_admin
 from simple_kanban.services.ticket_service import TicketService
 from simple_kanban.services.swimlane_service import SwimlaneService
@@ -16,8 +16,8 @@ def index(request):
 @login_required(login_url="/register")
 def create_project(request):
   if request.method == "POST":
-      if ProjectService.CreateProject(request):
-        return redirect("index")
+    if ProjectService.CreateProject(request):
+      return redirect_with_toast(request, "index", "Success", "Succesfully created project.")
  
   context = ProjectService.GetProjectFormContext(request, False)
 
@@ -26,7 +26,8 @@ def create_project(request):
 @login_required(login_url="/register")
 def edit_project(request, project_id):
   [result, project] = ProjectService.GetProjectIfExists(request, project_id)
-  if not result: return redirect("index", "The selected project could not be found.")
+  if not result:
+    return redirect_with_toast(request, "index", "Not Found", "The selected project could not be found.")
   
   if request.method == "POST":
     ProjectService.EditProject(request, project)
@@ -39,20 +40,20 @@ def edit_project(request, project_id):
 def delete_project(request, project_id):
   [result, project] = ProjectService.GetProjectIfExists(request, project_id)
   if not result: 
-    return redirect_with_message("index", "redirect_message", "Could not delete Project as it no longer exists.")
+    return redirect_with_toast(request, "index", "Not Found", "Could not delete Project as it no longer exists.")
   
   project.soft_delete(request.user)
   SwimlaneService.DeleteProjectSwimlanes(request, project)
     
-  return redirect("index")
+  return redirect_with_toast(request, "index", "Success", "Succesfully deleted Project")
 
 @user_passes_test(is_admin, login_url="/", redirect_field_name=None)
 def delete_swimlane(request, project_id, swimlane_id):
   [result, swimlane] = SwimlaneService.GetSwimlaneIfExists(request, swimlane_id)
   if not result: 
-    return redirect_with_message("index", "redirect_message", "Could not delete Swimlane as it no longer exists.")
+    return redirect_with_toast(request, "index", "Not Found", "Could not delete Swimlane as it no longer exists.")
   
   swimlane.soft_delete(request.user)
   TicketService.DeleteSwimlaneTickets(request, swimlane)
   
-  return redirect("project_edit", project_id)
+  return redirect_with_toast(request, "project_edit", "Success", "Succesfully deleted Swimlane", project_id)
