@@ -40,7 +40,11 @@ def get_object_if_exists(request, model_class, object_id) -> Union[bool, object 
       obj = model_class.objects.get(pk=object_id)
       return [True, obj]
   except model_class.DoesNotExist:
-    ErorrLogService.write_log_to_db(request, 2, f"{str(model_class.__name__)} not found.")
+    ErorrLogService.write_log_to_db(
+      request=request,
+      level=2,
+      message=f"{str(model_class.__name__)} with ID: {object_id} not found."
+    )
     return [False, None]
     
 def merge_contexts(*args) -> dict:
