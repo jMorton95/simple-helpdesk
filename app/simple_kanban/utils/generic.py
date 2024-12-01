@@ -36,6 +36,18 @@ def form_is_valid(request, form) -> bool:
 
 
 def get_object_if_exists(request, model_class, object_id) -> Union[bool, object | None]:
+  """
+    Generic Method to try and get a specific Model class by ID, from the database.
+    Logs an error if not found.
+
+    Params:
+      request: Network Request
+      model_class: A Static reference to a Model Class
+      object_id: An ID to try and retrieve from the database.
+
+    Returns:
+      A Tuple of a boolean result and the Object or None
+  """
   try:
       obj = model_class.objects.get(pk=object_id)
       return [True, obj]
@@ -48,6 +60,14 @@ def get_object_if_exists(request, model_class, object_id) -> Union[bool, object 
     return [False, None]
     
 def merge_contexts(*args) -> dict:
+  """
+    Merges dictionaries.
+
+    Duplicate keys will be overwritten.
+
+    Params:
+      N number of dictionary objects.
+  """
   new_context = {}
   for obj in args:
     if isinstance(obj, dict):
@@ -57,7 +77,7 @@ def merge_contexts(*args) -> dict:
 def redirect_with_message(action: str, name: str, message: str):
   """
     Redirect to a named action (see simple_kanban/urls.py) action with a query parameter encoded message to the UI.
-    
+
     Typically used for redirecting a 404 error back to a page with descriptive message. 
   """
   return redirect(f"{reverse(action)}?{urlencode({name: message})}")
