@@ -1,7 +1,6 @@
 from simple_kanban.models import Project, Ticket
 
 class DashboardService():
-  
   def GetDashboardContext(request):
     projects = Project.objects.prefetch_related(
       'swimlane_set__ticket_set__ticketcomment_set'
