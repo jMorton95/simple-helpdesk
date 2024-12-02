@@ -1,5 +1,5 @@
-# simple_kanban/tests/CustomTestRunner.py
 from django.test.runner import DiscoverRunner
+from unittest import TestLoader, TestSuite
 
 class CustomTestRunner(DiscoverRunner):
   """
@@ -9,8 +9,6 @@ class CustomTestRunner(DiscoverRunner):
     """
     Build a test suite using test discovery for specified test paths.
     """
-    from unittest import TestLoader, TestSuite
-
     loader = TestLoader()
     suite = TestSuite()
 
