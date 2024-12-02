@@ -30,6 +30,8 @@ ALLOWED_HOSTS = [
   "joshmorton.co.uk"
 ]
 
+TEST_RUNNER = 'simple_kanban.tests.custom_test_runner.CustomTestRunner'
+
 
 # Application definition
 
