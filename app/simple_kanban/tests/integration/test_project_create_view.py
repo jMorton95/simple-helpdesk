@@ -1,8 +1,8 @@
 from django.urls import reverse
-from simple_kanban.tests.unit.base import BaseUnitTest
+from simple_kanban.tests.integration.base import BaseIntegrationTest
 from simple_kanban.models import Project
 
-class CreateProjectViewTest(BaseUnitTest):
+class CreateProjectViewIntegrationTest(BaseIntegrationTest):
 
   def test_create_project_post(self):
     url = reverse('project_create')

@@ -1,7 +1,7 @@
-from simple_kanban.tests.unit.base import BaseUnitTest
+from simple_kanban.tests.integration.base import BaseIntegrationTest
 from django.urls import reverse
 
-class DashboardViewTest(BaseUnitTest):
+class DashboardViewIntegrationTest(BaseIntegrationTest):
   def test_index_view(self):
     url = reverse('index')
     

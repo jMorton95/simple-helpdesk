@@ -1,7 +1,7 @@
 from simple_kanban.services.dashboard_service import DashboardService
-from simple_kanban.tests.integration.base import BaseIntegrationTest
+from simple_kanban.tests.unit.base import BaseUnitTest
 
-class DashboardServiceTests(BaseIntegrationTest):
+class DashboardServiceUnitTests(BaseUnitTest):
   def test_get_dashboard_context(self):
     """
       Test the GetDashboardContext method for filtering tickets by user.

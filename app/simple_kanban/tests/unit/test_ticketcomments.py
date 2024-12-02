@@ -1,7 +1,7 @@
-from simple_kanban.tests.integration.base import BaseIntegrationTest
 from simple_kanban.models import TicketComment
+from simple_kanban.tests.unit.base import BaseUnitTest
 
-class TicketCommentIntegrationTests(BaseIntegrationTest):
+class TicketCommentUnitTests(BaseUnitTest):
   def test_create_ticket_with_comments(self):
     """
       Test creating comments for an existing ticket using the BaseIntegrationTest setup.

@@ -1,7 +1,7 @@
 from simple_kanban.models import Project, Swimlane, Ticket
-from simple_kanban.tests.integration.base import BaseIntegrationTest
+from simple_kanban.tests.unit.base import BaseUnitTest
 
-class ProjectIntegrationTests(BaseIntegrationTest):
+class ProjectUnitTests(BaseUnitTest):
   def test_create_project_with_swimlanes_and_tickets(self):
     """
       Test the creation of the related Project, Swimlane and Ticket entities. 
