@@ -55,6 +55,7 @@ app/staticfiles
 # Translations
 *.mo
 *.pot
+*.sqlite3
 
 # Django stuff:
 *.log
