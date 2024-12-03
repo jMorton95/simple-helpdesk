@@ -28,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
   "127.0.0.1",
-  "18.169.17.253",
   "joshmorton.co.uk"
 ]
 
@@ -123,7 +122,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'simple_kanban/static/'
+STATIC_URL = 'staticfiles/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 LOG_FILE = 'backup_logs.txt'
 
