@@ -14,13 +14,13 @@ class CustomTestRunner(DiscoverRunner):
     loader = TestLoader()
     suite = TestSuite()
 
-    project_root = Path(__file__).resolve().parent.parent
+    project_root = Path(__file__).resolve().parent
     if str(project_root) not in sys.path:
         sys.path.insert(0, str(project_root))
 
     if not test_labels:
-        integration_tests = project_root / "tests/integration"
-        unit_tests = project_root / "tests/unit"
+        integration_tests = project_root / "integration"
+        unit_tests = project_root / "unit"
         
         print(str(integration_tests))
         print(str(unit_tests))
