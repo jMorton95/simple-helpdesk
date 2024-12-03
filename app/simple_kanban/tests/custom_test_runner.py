@@ -21,6 +21,9 @@ class CustomTestRunner(DiscoverRunner):
     if not test_labels:
         integration_tests = project_root / "tests/integration"
         unit_tests = project_root / "tests/unit"
+        
+        print(str(integration_tests))
+        print(str(unit_tests))
 
         suite.addTests(loader.discover(start_dir=str(integration_tests), pattern="test*.py"))
         suite.addTests(loader.discover(start_dir=str(unit_tests), pattern="test*.py"))
