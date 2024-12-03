@@ -1,3 +1,4 @@
+import os
 from django.test.runner import DiscoverRunner
 from unittest import TestLoader, TestSuite
 from pathlib import Path
@@ -16,8 +17,12 @@ class CustomTestRunner(DiscoverRunner):
     suite = TestSuite()
 
     # Use Path to construct the test directories
-    integration_tests = settings.BASE_DIR / "simple_kanban" / "tests" / "integration"
-    unit_tests = settings.BASE_DIR / "simple_kanban" / "tests" / "unit"
+    tests_root = os.path.join(settings.BASE_DIR, "../simple_kanban/tests")
+    integration_tests = os.path.join(tests_root, "integration")
+    unit_tests = os.path.join(tests_root, "unit")
+    
+    print(f"Integration tests path: {integration_tests}")
+    print(f"Unit tests path: {unit_tests}")
 
     if not test_labels:
       suite.addTests(loader.discover(start_dir=str(integration_tests), pattern="test*.py"))
