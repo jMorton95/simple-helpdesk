@@ -11,31 +11,30 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 import os
+import environ
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = environ.Env(
+  DEBUG=(bool, False)
+)
+environ.Env.read_env()
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
+SECRET_KEY = env('SECRET_KEY')
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g%acla4@hwe2&xk^58lo=845-+!q$d&+hyozd7+l-k4gk$sxs^'
+DEBUG = env('DEBUG')
+DJANGO_ENV = env('DJANGO_ENV', default='development')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = [
-  "127.0.0.1",
-  "joshmorton.co.uk"
-]
+if DJANGO_ENV == 'production':
+  ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
+else:
+  ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 TEST_RUNNER = 'simple_kanban.tests.custom_test_runner.CustomTestRunner'
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'simple_kanban.apps.SimpleKanbanConfig',
     'django.contrib.admin',
