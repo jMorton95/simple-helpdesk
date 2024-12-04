@@ -31,11 +31,11 @@ def edit_project(request, project_id):
     return redirect_with_toast(request, "index", "Not Found", "The selected project could not be found.")
   
   if request.method == "POST":
-    ProjectService.EditProject(request, project)
+    if ProjectService.EditProject(request, project):
+      ToastService.send_toast_message(request, "Success", "Succesfully saved project.")
      
   context = ProjectService.GetProjectFormContext(request, True, project)
-  ToastService.send_toast_message(request, "Success", "Succesfully saved project.")
-
+  
   return render(request, "kanban/project_form.html", context)
 
 @user_passes_test(is_admin, login_url="/", redirect_field_name=None)
