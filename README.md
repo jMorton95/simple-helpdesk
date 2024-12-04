@@ -36,8 +36,8 @@ After verifying the prerequisites:
 
 ### 1.2.2.4 Running the Website  
 Start the development server:  
-   `script 5.3.11python manage.py runserver the server is running, open your web browser and navigate to:  
-http://127.0.0.1:8000
+   `python manage.py runserver`
+   Once the server is running, open your web browser and navigate to: http://127.0.0.1:8000
 
 ### 1.2.2.5 Instructions for Visual Studio Code IDE  
 1. After completing the steps above, open the command palette in VS Code with `Control + Shift + P`.  
