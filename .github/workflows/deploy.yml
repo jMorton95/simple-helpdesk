@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
-  merge:
+  pull_request:
     branches:
       - main
+    types:
+      - closed
 
 jobs:
   test-and-deploy:
