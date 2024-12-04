@@ -56,7 +56,7 @@ app/staticfiles
 *.mo
 *.pot
 *.sqlite3
-
+app/kanban.sqlite3
 # Django stuff:
 *.log
 local_settings.py
