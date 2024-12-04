@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render
+from simple_kanban.services.toast_service import ToastService
 from simple_kanban.utils.generic import redirect_with_toast
 from simple_kanban.utils.auth import is_admin
 from simple_kanban.services.ticket_service import TicketService
@@ -33,6 +34,7 @@ def edit_project(request, project_id):
     ProjectService.EditProject(request, project)
      
   context = ProjectService.GetProjectFormContext(request, True, project)
+  ToastService.send_toast_message(request, "Success", "Succesfully saved project.")
 
   return render(request, "kanban/project_form.html", context)
 
