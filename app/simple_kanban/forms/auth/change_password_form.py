@@ -1,6 +1,11 @@
 from django.contrib.auth.forms import PasswordChangeForm
+
+
 class ChangePasswordForm(PasswordChangeForm):
-  
+  """
+    Form that overrides Django's PasswordChangeForm.
+    widget.attrs are used to specify custom CSS classes and placeholders.
+  """
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
 

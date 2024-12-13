@@ -5,6 +5,13 @@ from django.contrib.auth.models import User
 
 
 class TicketForm(forms.ModelForm):
+  """
+    Custom form to represent a Ticket Model.
+    
+    __init__ Defines HTML form elements used for all fields of the Model.
+    Configures each HTML field with classes, and client-side validation rules.
+      __init__ is used here instead of the usual standard Class Meta as DB operations must occur before the form can be instantiated.
+  """
   def __init__(self, request, project_id, *args, **kwargs):
     super().__init__(*args, **kwargs)
     self.fields['name'] = forms.CharField(
@@ -17,6 +24,7 @@ class TicketForm(forms.ModelForm):
       required=True,
       widget=forms.TextInput(attrs={'class': FORM_FIELD_CSS_CLASSES, "rows": 4, "cols": 40, min: 10, max: 255})
     )
+    #ModelChoiceField represents a HTML Select/Dropdown Box. Queryset is provides the selectable options, in this case all Users in the system.
     self.fields['assignee'] = forms.ModelChoiceField(
       queryset=User.objects.all(),
       required=False,
@@ -30,6 +38,7 @@ class TicketForm(forms.ModelForm):
       initial=request.user,
       widget=forms.Select(attrs={'class': FORM_FIELD_CSS_CLASSES})
     )
+    #ModelChoiceField represents a HTML Select/Dropdown Box. Queryset is provides the selectable options, in this case all Swimlanes assigned to the Project.
     self.fields['ticket_swimlane'] = forms.ModelChoiceField(
       queryset=Swimlane.objects.filter(swimlane_project=project_id),
       required=True,

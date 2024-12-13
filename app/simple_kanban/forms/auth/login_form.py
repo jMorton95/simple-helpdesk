@@ -1,7 +1,12 @@
 from django.contrib.auth.forms import AuthenticationForm
 from simple_kanban.utils.constants import FORM_FIELD_CSS_CLASSES
+
+
 class LoginForm(AuthenticationForm):
-  
+  """
+    LoginForm that overrides DJango's AuthenticationForm.
+    Widiget.attrs are used to provide custom CSS classes and placeholders.
+  """
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
 
