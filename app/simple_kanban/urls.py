@@ -17,6 +17,7 @@ urlpatterns = [
     path("project/<int:project_id>/<int:ticket_id>/view", project.edit_ticket_form, name="ticket_view"),
     path("project/<int:project_id>/<int:ticket_id>/edit", project.edit_ticket, name="ticket_edit"),
     path("project/<int:project_id>/<int:ticket_id>/comment", project.add_comment, name="comment_create"),
+    path("project/<int:project_id>/<int:ticket_id>/<int:ticketcomment_id>/edit", project.edit_comment, "comment_edit"),
     path("project/<int:project_id>/<int:ticket_id>/<int:ticketcomment_id>/delete", project.delete_comment, name="comment_delete"),
     path("project/<int:project_id>/<int:ticket_id>/delete", project.delete_ticket, name="ticket_delete")
 ]
