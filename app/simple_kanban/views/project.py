@@ -60,7 +60,10 @@ def create_ticket(request, project_id):
 @login_required(login_url="/register")
 def edit_ticket_form(request, project_id, ticket_id, ticketcomment_id = None):
   """
-    Creates a Ticket Form populated with existing Ticket data. Redirects to Index if Project or Ticket does not exist.
+    Creates a Ticket Form populated with existing Ticket data.
+    Redirects to Index if Project or Ticket does not exist.
+    
+    Also checks request to see if the User is trying to edit a comment.
   """
   [project_result, project] = get_object_if_exists(request, Project, project_id)
   [ticket_result, ticket] = get_object_if_exists(request, Ticket, ticket_id)
@@ -71,6 +74,11 @@ def edit_ticket_form(request, project_id, ticket_id, ticketcomment_id = None):
   
   if ticketcomment_id and not comment_result:
     return redirect_with_toast(request, "ticket_view", "Not Found", "Could not edit comment as it no longer exists.", project_id, ticket_id)
+  
+  #Edge case to ensure users cannot edit another user's comment.
+  #Should not happen with general use, as Edit button is only rendered hidden on comments made by the current user.
+  if comment_result and comment.user.id is not request.user.id:
+    return redirect_with_toast(request, "ticket_view", "Not Found", "You cannot edit another user's comment", project_id, ticket_id)
   
   project_context = ProjectService.GetProjectContext(request, project)
   edit_ticket_context = TicketService.GetEditTicketContext(request, ticket)

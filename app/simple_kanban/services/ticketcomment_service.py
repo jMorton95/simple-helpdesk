@@ -16,6 +16,7 @@ class TicketCommentService():
     comment_form = TicketCommentForm()
     return { "comment_form": comment_form, "comment_id": None}
   
+  
   def GetCommentEditContext(ticketcomment):
     """
       Method that creates a DJango context for an empty TicketComment Form.
@@ -23,6 +24,7 @@ class TicketCommentService():
     edit_comment_form = TicketCommentForm(instance=ticketcomment)
     comment_form = TicketCommentForm()
     return { "comment_form": comment_form, "edit_comment_form": edit_comment_form, "comment_id": ticketcomment.id }
+  
   
   def CreateComment(request, ticket_id):
     """
@@ -39,6 +41,7 @@ class TicketCommentService():
     else:
       return False
   
+  
   def EditComment(request, ticket_id, ticket_comment):
     """
       Method that resolves when a User submits an Edit TicketComment form.
@@ -54,6 +57,7 @@ class TicketCommentService():
       return True
     else: 
       return False
+  
   
   def DeleteTicketComments(request, ticket):
     """
