@@ -9,12 +9,20 @@ class TicketCommentService():
     Methods do not rely on instance state and are treated as static. 
   """
   
-  def GetTicketCreateContext():
+  def GetCommentCreateContext():
     """
       Method that creates a DJango context for an empty TicketComment Form.
     """
     comment_form = TicketCommentForm()
-    return { "comment_form": comment_form }
+    return { "comment_form": comment_form, "comment_id": None}
+  
+  def GetCommentEditContext(ticketcomment):
+    """
+      Method that creates a DJango context for an empty TicketComment Form.
+    """
+    edit_comment_form = TicketCommentForm(instance=ticketcomment)
+    comment_form = TicketCommentForm()
+    return { "comment_form": comment_form, "edit_comment_form": edit_comment_form, "comment_id": ticketcomment.id }
   
   def CreateComment(request, ticket_id):
     """
@@ -31,17 +39,17 @@ class TicketCommentService():
     else:
       return False
   
-  def EditComment(request, ticket_comment):
+  def EditComment(request, ticket_id, ticket_comment):
     """
       Method that resolves when a User submits an Edit TicketComment form.
       Comments are validated and then saved.
       
       Returns true/false to indicate the result of the operation.
     """
-    comment_form = TicketCommentForm(request, data=request.POST, instance=ticket_comment)
+    comment_form = TicketCommentForm(data=request.POST, instance=ticket_comment)
     
     if form_is_valid(request, comment_form):
-      comment = comment_form.save(commit=False)
+      comment = comment_form.save(request, ticket_id, commit=False)
       comment.update(request.user)
       return True
     else: 

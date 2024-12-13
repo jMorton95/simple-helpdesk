@@ -34,7 +34,6 @@ function configureDeleteTicketButton() {
 function configureDeleteCommentButtons() {
   //Select the Delete Comment Buttons and bind the confirm buttons and Server Path. Skip if no elements selected.
   const deleteButtons = document.querySelectorAll('.remove-comment-btn');
-  console.log(deleteButtons.length)
   if (deleteButtons == null || deleteButtons.length === 0) return
 
   deleteButtons.forEach(button => {

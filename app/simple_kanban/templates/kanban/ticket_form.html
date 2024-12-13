@@ -43,21 +43,41 @@
             {% for comment in ticket.comments %}
             <div class="card mb-1">
               <div class="card-body">
-                <strong class="d-flex justify-content-between">
-                  {{comment.user.username}}
-                    {% if is_admin %}
-                      <btn
-                        data-project-id="{{ project.id }}"
-                        data-ticket-id="{{ ticket.id }}"
-                        data-comment-id="{{ comment.id }}"
-                        data-bs-toggle="modal"
-                        data-bs-target="#delete_comment_modal"
-                        class="btn btn-danger btn-sm remove-comment-btn bi-x"
-                      ></btn>
-                    {% endif %}
-                </strong>
-                <i>{{comment.updated_at|date:"D M d - g:i a"}}</i>
-                <p class="mt-2">{{comment.text}}</p>
+                {% if comment_id and comment_id == comment.id%}
+                  <form method="POST" class="mt-2" action="{% url "comment_edit" project.id ticket.id comment.id %}">
+                  {% csrf_token %}
+                {% endif %}
+
+                  <strong class="d-flex justify-content-between">
+                    {{comment.user.username}}
+                      <a
+                        href="{% url "ticket_view" project.id ticket.id comment.id %}"
+                        class="btn btn-info btn-sm edit-comment-btn bi-pencil-fill"
+                      ></a>
+
+                      {% if is_admin %}
+                        <button
+                          data-project-id="{{ project.id }}"
+                          data-ticket-id="{{ ticket.id }}"
+                          data-comment-id="{{ comment.id }}"
+                          data-bs-toggle="modal"
+                          data-bs-target="#delete_comment_modal"
+                          class="btn btn-danger btn-sm remove-comment-btn bi-x"
+                        ></button>
+                      {% endif %}
+                    </strong>
+
+                  {% if comment_id and comment_id == comment.id%}
+                    {{ edit_comment_form.as_p }}
+                  {% else %}
+                    <p id="comment-paragraph-{{comment.id}}" class="mt-2">{{comment.text}}</p>
+                    <i>{{comment.updated_at|date:"D M d - g:i a"}}</i>
+                  {% endif %}
+
+                {% if comment_id and comment_id == comment.id%}
+                  <button type="submit" class="btn btn-primary">Save </button>
+                  </form>
+                {% endif %}
               </div>
             </div>
             {% endfor %}

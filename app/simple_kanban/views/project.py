@@ -58,19 +58,24 @@ def create_ticket(request, project_id):
   return redirect("ticket_new", project_id)
 
 @login_required(login_url="/register")
-def edit_ticket_form(request, project_id, ticket_id):
+def edit_ticket_form(request, project_id, ticket_id, ticketcomment_id = None):
   """
     Creates a Ticket Form populated with existing Ticket data. Redirects to Index if Project or Ticket does not exist.
   """
   [project_result, project] = get_object_if_exists(request, Project, project_id)
   [ticket_result, ticket] = get_object_if_exists(request, Ticket, ticket_id)
+  [comment_result, comment] = get_object_if_exists(request, TicketComment, ticketcomment_id)
   
   if not ticket_result or not project_result:
     return redirect_with_toast(request, "index", "Not Found", "The selected Project and/or Ticket could not be found.")
   
+  if ticketcomment_id and not comment_result:
+    return redirect_with_toast(request, "ticket_view", "Not Found", "Could not edit comment as it no longer exists.", project_id, ticket_id)
+  
   project_context = ProjectService.GetProjectContext(request, project)
   edit_ticket_context = TicketService.GetEditTicketContext(request, ticket)
-  comment_context = TicketCommentService.GetTicketCreateContext()
+  
+  comment_context = TicketCommentService.GetCommentCreateContext() if not ticketcomment_id else TicketCommentService.GetCommentEditContext(comment)
   
   return render(request, "kanban/project_overview.html", merge_contexts(project_context, edit_ticket_context, comment_context))
 
@@ -147,9 +152,9 @@ def edit_comment(request, project_id, ticket_id, ticketcomment_id):
     if not comment_result:
       return redirect_with_toast(request, "index", "Not Found", "Could not edit comment as it no longer exists.")
       
-    TicketCommentService.EditComment(request, comment)
+    TicketCommentService.EditComment(request, ticket_id, comment)
   
-  return redirect_with_toast(request, "ticket_view", "Success", "Succesfully added comment.", project_id, ticket_id)
+  return redirect_with_toast(request, "ticket_view", "Success", "Succesfully edited comment.", project_id, ticket_id)
 
 
 @user_passes_test(is_admin, login_url="/", redirect_field_name=None)

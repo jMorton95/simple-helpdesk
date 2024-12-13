@@ -19,7 +19,11 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const toastMessage = JSON.parse(document.getElementById('toast-message').textContent);
+    const toastElement = document.getElementById('toast-message');
+    
+    if (toastElement == null ) return;
+
+    const toastMessage = JSON.parse(toastElement.textContent);
     const toastHeader = document.getElementById('toast-header');
     const toastBody = document.getElementById('toast-body');
 
