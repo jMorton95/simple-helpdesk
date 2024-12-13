@@ -50,10 +50,12 @@
 
                   <strong class="d-flex justify-content-between">
                     {{comment.user.username}}
-                      <a
-                        href="{% url "ticket_view" project.id ticket.id comment.id %}"
-                        class="btn btn-info btn-sm edit-comment-btn bi-pencil-fill"
-                      ></a>
+                      {% if user.id == comment.user.id %}
+                        <a
+                          href="{% url "ticket_view" project.id ticket.id comment.id %}"
+                          class="btn btn-info btn-sm edit-comment-btn bi-pencil-fill"
+                        ></a>
+                      {% endif %}
 
                       {% if is_admin %}
                         <button
