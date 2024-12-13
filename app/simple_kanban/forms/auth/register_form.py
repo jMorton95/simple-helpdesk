@@ -4,6 +4,12 @@ from django.contrib.auth.forms import UserCreationForm
 from simple_kanban.utils.constants import FORM_FIELD_CSS_CLASSES
 
 class RegisterForm(UserCreationForm):
+  """
+    Custom RegisterForm that overrides DJango's UserCreationForm.
+    Error messages are specified with Meta and the custom "admin" property extends UserCreationForm.
+    
+    Widget.attrs specifies custom CSS classes and Placeholders.
+  """
   admin = forms.BooleanField(required=False, label="Administrator")
   class Meta:
       model = User
@@ -40,6 +46,11 @@ class RegisterForm(UserCreationForm):
     })
     
   def clean(self):
+    """
+      Override UserCreationForm's clean() method.
+      This first performs a custom comparison to ensure passwords are matching.
+      Next, a DB operation scans for existing accounts with the same email address, erroring if found. 
+    """
     cleaned_data = super().clean()
 
     password1 = cleaned_data.get('password1')
@@ -54,6 +65,12 @@ class RegisterForm(UserCreationForm):
     return cleaned_data
 
   def save(self, commit=True):
+    """
+      Overrides the UserCreationForm.save() method.
+      Instantiate the Model instance, then set the username property to the email address.
+        This is required as Django prefers username authentication by default.
+      Finally, if User is to be created as admin, create the role if it does not exist then add the user to it.
+    """
     user = super().save(commit=False)
     user.username = user.email
     if commit:

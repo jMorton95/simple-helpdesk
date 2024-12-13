@@ -16,6 +16,10 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+"""
+  The following section loads .env files to configure the runtime environment
+  appropriately for local dev and production.
+"""
 env = environ.Env(
   DEBUG=(bool, False)
 )

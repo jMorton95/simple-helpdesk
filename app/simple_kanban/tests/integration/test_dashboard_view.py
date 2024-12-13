@@ -3,6 +3,9 @@ from django.urls import reverse
 
 class DashboardViewIntegrationTest(BaseIntegrationTest):
   def test_index_view(self):
+    """
+      Test that the Dashboard returns the correct status code, data and template.
+    """
     url = reverse('index')
     
     response = self.client.get(url)

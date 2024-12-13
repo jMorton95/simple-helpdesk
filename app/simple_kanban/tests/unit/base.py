@@ -2,6 +2,9 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from simple_kanban.models import Project, Swimlane, Ticket
 
+"""
+  Configure default data for each Integration Test.
+"""
 class BaseUnitTest(TestCase):
   def setUp(self):
     #Arrange
