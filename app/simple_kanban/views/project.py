@@ -11,10 +11,16 @@ from simple_kanban.services.project_service import ProjectService
   Module that contains all endpoints related to viewing and
   creating data that is related to Project entities.
   For example, Tickets and Ticket Comments.
+  
+  @login_required attribute enforces an active authentication session to access the endpoint.
+  @user_passes_test attribute invokes custom function that checks if a user is admin, rejects request if criteria is not met.
 """
 
 @login_required(login_url="/register")
 def overview(request, project_id):
+  """
+    Loads a single Project, redirects if not found.
+  """
   [result, project] = get_object_if_exists(request, Project, project_id)
   if not result:
     return redirect_with_toast(request, "index", "Not Found", "The selected project could not be found.")
@@ -26,6 +32,9 @@ def overview(request, project_id):
 
 @login_required(login_url="/register")
 def create_ticket_form(request, project_id):
+  """
+    Creates an empty Ticket Form. Redirects to Index if Project does not exist.
+  """
   [result, project] = get_object_if_exists(request, Project, project_id)
   if not result:
     return redirect_with_toast(request, "index", "Not Found", "Cannot create a Ticket as project no longer exists.")
@@ -38,14 +47,21 @@ def create_ticket_form(request, project_id):
 
 @login_required(login_url="/register")
 def create_ticket(request, project_id):
+  """
+    Submits a Create Ticket Form. Redirects to Index if Project does not exist.
+    UI is populated with error messages if create fails.
+  """
   if request.method == "POST":
     if TicketService.CreateTicket(request, project_id):
       return redirect_with_toast(request, "project_overview", "Success", "Successfully created Ticket.", project_id)
   
   return redirect("ticket_new", project_id)
 
-
+@login_required(login_url="/register")
 def edit_ticket_form(request, project_id, ticket_id):
+  """
+    Creates a Ticket Form populated with existing Ticket data. Redirects to Index if Project or Ticket does not exist.
+  """
   [project_result, project] = get_object_if_exists(request, Project, project_id)
   [ticket_result, ticket] = get_object_if_exists(request, Ticket, ticket_id)
   
@@ -61,6 +77,12 @@ def edit_ticket_form(request, project_id, ticket_id):
 
 @login_required(login_url="/register")
 def edit_ticket(request, project_id, ticket_id):
+  """
+    Submits an Edit Ticket Form. Redirects to Index if Ticket does not exist.
+    UI is populated with error messages if edit fails.
+    
+    User is redirected to the specific Ticket if Edit is successful.
+  """
   if request.method == "POST":
     [ticket_result, ticket] = get_object_if_exists(request, Ticket, ticket_id)
   
@@ -73,8 +95,33 @@ def edit_ticket(request, project_id, ticket_id):
   return redirect("ticket_view", project_id, ticket_id)
 
 
+@user_passes_test(is_admin, login_url="/", redirect_field_name=None)
+def delete_ticket(request, project_id, ticket_id):
+  """
+    Submits a Ticket deletion request.
+    Redirects if the Ticket already does not exist.
+    
+    If delete succesful, deletes related Comments and redirects to the Project view.
+  """
+  [result, ticket] = get_object_if_exists(request, Ticket, ticket_id)
+  
+  if not result:
+    return redirect_with_toast(request, "index", "Not Found", "Could not delete Ticket as it no longer exists.")
+  
+  ticket.soft_delete(request.user)
+  TicketCommentService.DeleteTicketComments(request, ticket)
+  
+  return redirect_with_toast(request, "project_overview", "Success", "Successfully deleted ticket.", project_id)
+
+
 @login_required(login_url="/register")
 def add_comment(request, project_id, ticket_id):
+  """
+    Submits an Add Comment form. Redirects to Index if the Ticket does not exist.
+    UI is populated with error messages if create fails.
+    
+    User is redirected to the specific Ticket if Create is successful
+  """
   if request.method == "POST":
     [ticket_result, _] = get_object_if_exists(request, Ticket, ticket_id)
     
@@ -88,6 +135,12 @@ def add_comment(request, project_id, ticket_id):
 
 @login_required(login_url="/register")
 def edit_comment(request, project_id, ticket_id, ticketcomment_id):
+  """
+    Submits an Edit Comment form. Redirects to Index if the Comment does not exist.
+    UI is populated with error messages if edit fails.
+    
+    User is redirected to the specific Ticket if Edit is successful
+  """
   if request.method == "POST":
     [comment_result, comment] = get_object_if_exists(request, TicketComment, ticketcomment_id)
     
@@ -100,20 +153,13 @@ def edit_comment(request, project_id, ticket_id, ticketcomment_id):
 
 
 @user_passes_test(is_admin, login_url="/", redirect_field_name=None)
-def delete_ticket(request, project_id, ticket_id):
-  [result, ticket] = get_object_if_exists(request, Ticket, ticket_id)
-  
-  if not result:
-    return redirect_with_toast(request, "index", "Not Found", "Could not delete Ticket as it no longer exists.")
-  
-  ticket.soft_delete(request.user)
-  TicketCommentService.DeleteTicketComments(request, ticket)
-  
-  return redirect_with_toast(request, "project_overview", "Success", "Successfully deleted ticket.", project_id)
-
-
-@user_passes_test(is_admin, login_url="/", redirect_field_name=None)
 def delete_comment(request, project_id, ticket_id, ticketcomment_id):
+  """
+    Submits a Comment deletion request.
+    Redirects if the Comment already does not exist.
+    
+    If delete succesful, redirects to the Ticket view.
+  """
   [result, comment] = get_object_if_exists(request, TicketComment, ticketcomment_id)
   
   if not result:

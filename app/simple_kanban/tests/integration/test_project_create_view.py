@@ -2,9 +2,13 @@ from django.urls import reverse
 from simple_kanban.tests.integration.base import BaseIntegrationTest
 from simple_kanban.models import Project
 
+
 class CreateProjectViewIntegrationTest(BaseIntegrationTest):
 
   def test_create_project_post(self):
+    """
+      Tests that the correct amount of entities are created, the data matches what was submitted and the redirection behaviour is accurate.
+    """
     url = reverse('project_create')
     
     #Construct a Project Form with SwimlaneFormSet data.
@@ -30,6 +34,9 @@ class CreateProjectViewIntegrationTest(BaseIntegrationTest):
     self.assertEqual(Project.objects.last().swimlanes.last().sort_order, 1)
 
   def test_create_project_get(self):
+    """
+      Tests that Empty Project Forms are created properly, the status code was correct and the correc ttemplate was used.
+    """
     url = reverse('project_create')
     
     response = self.client.get(url)

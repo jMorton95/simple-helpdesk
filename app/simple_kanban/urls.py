@@ -1,6 +1,13 @@
 from .views import auth, dashboard, project
 from django.urls import path
  
+"""
+  Specifies all endpoints used throughout the application.
+  First arg is the URL path, <int:id> indicates a dynamic route.
+  Second arg points an endpoint to a Controller/View action.
+  Third arg aliases the endpoint name for use throughout Views/Templates
+"""
+
 urlpatterns = [
     path("", dashboard.index, name="index"),
     path("register", auth.register, name="register"),
