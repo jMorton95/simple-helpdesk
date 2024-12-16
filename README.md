@@ -32,7 +32,7 @@ After verifying the prerequisites:
 3. Navigate to the project directory:  
    `cd app`
 4. Install the project dependencies:  
-   `pip install requirements.txt`
+   `pip install -r requirements.txt`
 
 ### 1.2.2.4 Running the Website  
 Start the development server:  
